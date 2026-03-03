@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/features/presentation/pages/error_page.dart';
-import 'package:flutter_pokedex/features/presentation/widgets/button_widget.dart';
-import 'package:flutter_pokedex/features/presentation/widgets/onboarding_one_widget.dart';
-import 'package:flutter_pokedex/features/presentation/widgets/onborading_two_widget.dart';
-import 'package:flutter_pokedex/features/presentation/widgets/page_indicator_widget.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/router/app_router.dart';
+import '../widgets/button_widget.dart';
+import '../widgets/onboarding_one_widget.dart';
+import '../widgets/onborading_two_widget.dart';
+import '../widgets/page_indicator_widget.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -23,14 +25,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const ErrorPage(),
-          transitionsBuilder: (_, anim, __, child) =>
-              FadeTransition(opacity: anim, child: child),
-          transitionDuration: const Duration(milliseconds: 500),
-        ),
-      );
+      context.go(AppRoutes.pokemonList);
     }
   }
 

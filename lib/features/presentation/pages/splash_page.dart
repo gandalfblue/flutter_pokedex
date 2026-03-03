@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/features/presentation/pages/onboarding_page.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:flutter_pokedex/features/presentation/widgets/pokeball_widget.dart';
-
+import '../../../../core/router/app_router.dart';
+import '../widgets/pokeball_widget.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -37,14 +37,7 @@ class _SplashPageState extends State<SplashPage>
 
     Timer(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const OnboardingPage(),
-            transitionsBuilder: (_, anim, __, child) =>
-                FadeTransition(opacity: anim, child: child),
-            transitionDuration: const Duration(milliseconds: 500),
-          ),
-        );
+        context.go(AppRoutes.onboarding);
       }
     });
   }

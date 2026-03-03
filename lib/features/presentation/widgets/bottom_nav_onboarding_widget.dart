@@ -12,7 +12,7 @@ class BottomNavWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF141428),
         border: Border(
-          top: BorderSide(color: Colors.white.withOpacity(0.08), width: 1),
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.08), width: 1),
         ),
       ),
       child: Row(

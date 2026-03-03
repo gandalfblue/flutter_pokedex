@@ -6,6 +6,7 @@ class NavItemWidget extends StatelessWidget {
   final bool active;
 
   const NavItemWidget({
+    super.key,
     required this.icon,
     required this.label,
     this.active = false,
