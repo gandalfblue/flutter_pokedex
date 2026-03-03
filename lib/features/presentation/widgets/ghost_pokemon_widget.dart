@@ -16,7 +16,7 @@ class GhostPokemonWidget extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withOpacity(0.04),
+                  color: Colors.white.withValues(alpha: 0.04),
                   blurRadius: 40,
                   spreadRadius: 20,
                 ),
@@ -25,7 +25,7 @@ class GhostPokemonWidget extends StatelessWidget {
           ),
           Image.asset('assets/images/Magikarp_Jump_Pattern.png',
             fit: BoxFit.contain,
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha: 0.15),
             colorBlendMode: BlendMode.srcATop,
             errorBuilder: (_, __, ___) => CustomPaint(
               size: const Size(160, 160),
@@ -42,7 +42,7 @@ class _GhostPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.15)
+      ..color = Colors.white.withValues(alpha: 0.15)
       ..style = PaintingStyle.fill;
 
     final cx = size.width / 2;
@@ -57,7 +57,7 @@ class _GhostPainter extends CustomPainter {
     canvas.drawPath(path, paint);
 
     final eyePaint = Paint()
-      ..color = Colors.white.withOpacity(0.4)
+      ..color = Colors.white.withValues(alpha: 0.4)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(Offset(cx - 15, cy - 15), 8, eyePaint);
     canvas.drawCircle(Offset(cx + 15, cy - 15), 8, eyePaint);

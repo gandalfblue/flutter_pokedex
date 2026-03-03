@@ -1,0 +1,61 @@
+{
+  "@@locale": "es",
+  "appTitle": "Pokédex",
+  "@appTitle": {
+    "description": "Título de la aplicación"
+  },
+  "searchHint": "Buscar Pokémon...",
+  "@searchHint": {
+    "description": "Placeholder de la barra de búsqueda"
+  },
+  "statsLabel": "Estadísticas Base",
+  "@statsLabel": {
+    "description": "Etiqueta de sección para estadísticas base"
+  },
+  "abilitiesLabel": "Habilidades",
+  "@abilitiesLabel": {
+    "description": "Etiqueta de sección para habilidades"
+  },
+  "typesLabel": "Tipos",
+  "@typesLabel": {
+    "description": "Etiqueta de sección para tipos"
+  },
+  "heightLabel": "Altura",
+  "@heightLabel": {
+    "description": "Etiqueta del campo de altura"
+  },
+  "weightLabel": "Peso",
+  "@weightLabel": {
+    "description": "Etiqueta del campo de peso"
+  },
+  "errorMessage": "Algo salió mal. Por favor inténtalo de nuevo.",
+  "@errorMessage": {
+    "description": "Mensaje de error genérico"
+  },
+  "networkErrorMessage": "Sin conexión a internet. Por favor revisa tu red.",
+  "@networkErrorMessage": {
+    "description": "Mensaje de error de red"
+  },
+  "retryButton": "Reintentar",
+  "@retryButton": {
+    "description": "Etiqueta del botón reintentar"
+  },
+  "noResultsFound": "No se encontraron Pokémon.",
+  "@noResultsFound": {
+    "description": "Mensaje cuando la búsqueda no tiene resultados"
+  },
+  "loadingMessage": "Cargando...",
+  "@loadingMessage": {
+    "description": "Mensaje del indicador de carga"
+  },
+  "pokedexNumber": "#{number}",
+  "@pokedexNumber": {
+    "description": "Formato del número de Pokédex",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
+}
+

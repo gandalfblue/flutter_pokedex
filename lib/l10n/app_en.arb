@@ -1,0 +1,61 @@
+{
+  "@@locale": "en",
+  "appTitle": "Pokédex",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "searchHint": "Search Pokémon...",
+  "@searchHint": {
+    "description": "Search bar placeholder"
+  },
+  "statsLabel": "Base Stats",
+  "@statsLabel": {
+    "description": "Section label for base stats"
+  },
+  "abilitiesLabel": "Abilities",
+  "@abilitiesLabel": {
+    "description": "Section label for abilities"
+  },
+  "typesLabel": "Types",
+  "@typesLabel": {
+    "description": "Section label for types"
+  },
+  "heightLabel": "Height",
+  "@heightLabel": {
+    "description": "Height field label"
+  },
+  "weightLabel": "Weight",
+  "@weightLabel": {
+    "description": "Weight field label"
+  },
+  "errorMessage": "Something went wrong. Please try again.",
+  "@errorMessage": {
+    "description": "Generic error message"
+  },
+  "networkErrorMessage": "No internet connection. Please check your network.",
+  "@networkErrorMessage": {
+    "description": "Network error message"
+  },
+  "retryButton": "Retry",
+  "@retryButton": {
+    "description": "Retry button label"
+  },
+  "noResultsFound": "No Pokémon found.",
+  "@noResultsFound": {
+    "description": "Empty search results message"
+  },
+  "loadingMessage": "Loading...",
+  "@loadingMessage": {
+    "description": "Loading indicator message"
+  },
+  "pokedexNumber": "#{number}",
+  "@pokedexNumber": {
+    "description": "Pokédex number format",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
+}
+

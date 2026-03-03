@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/bottom_nav_widget.dart';
+import '../widgets/bottom_nav_onboarding_widget.dart';
 import '../widgets/ghost_pokemon_widget.dart';
 
 class ErrorPage extends StatelessWidget {

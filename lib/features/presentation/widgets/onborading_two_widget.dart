@@ -10,7 +10,7 @@ class OnboardingTwoWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: 180,
             height: 200,
             child: Image.asset(
