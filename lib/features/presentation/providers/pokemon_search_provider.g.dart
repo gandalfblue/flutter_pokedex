@@ -7,14 +7,14 @@ part of 'pokemon_search_provider.dart';
 // **************************************************************************
 
 String _$pokemonSearchNotifierHash() =>
-    r'6782ebcd60ee3c6c22bcea594018fae37ed197fc';
+    r'324230532164956e64e87c2e0601f9315b08e87a';
 
-/// Estado de la búsqueda de Pokémon.
+/// Estado de la búsqueda: lista de pokémon que coinciden con el query.
 ///
 /// Copied from [PokemonSearchNotifier].
 @ProviderFor(PokemonSearchNotifier)
 final pokemonSearchNotifierProvider = AutoDisposeNotifierProvider<
-    PokemonSearchNotifier, AsyncValue<PokemonEntity?>>.internal(
+    PokemonSearchNotifier, AsyncValue<List<PokemonEntity>?>>.internal(
   PokemonSearchNotifier.new,
   name: r'pokemonSearchNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -25,6 +25,6 @@ final pokemonSearchNotifierProvider = AutoDisposeNotifierProvider<
 );
 
 typedef _$PokemonSearchNotifier
-    = AutoDisposeNotifier<AsyncValue<PokemonEntity?>>;
+    = AutoDisposeNotifier<AsyncValue<List<PokemonEntity>?>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

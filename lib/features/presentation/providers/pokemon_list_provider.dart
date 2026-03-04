@@ -20,8 +20,8 @@ class PokemonListState with _$PokemonListState {
 }
 
 /// Provider de estado para la lista paginada de Pokémon.
-/// Usa Notifier para manejar side-effects y estado acumulativo.
-@riverpod
+/// keepAlive: true → el estado persiste al navegar, evitando recargas innecesarias.
+@Riverpod(keepAlive: true)
 class PokemonListNotifier extends _$PokemonListNotifier {
   static const int _pageSize = 20;
 
