@@ -16,5 +16,9 @@ class ApiConstants {
 
   // Paginación
   static const int pageSize = 20;
+
+  // Sprites de tipos (generation-viii / sword-shield)
+  static const String typeIconBaseUrl =
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/sword-shield/en/';
 }
 
