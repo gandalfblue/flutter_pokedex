@@ -42,6 +42,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               children: const [OnboardingOneWidget(), OnboardingTwoWidget()],
             ),
           ),
+          SizedBox(height: 30),
           PageIndicatorWidget(currentPage: _currentPage, totalPages: 2),
           const SizedBox(height: 16),
           ButtonWidget(

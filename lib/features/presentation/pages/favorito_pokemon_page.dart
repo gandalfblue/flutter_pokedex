@@ -7,6 +7,7 @@ import '../../domain/entities/pokemon_entity.dart';
 import '../providers/pokemon_favorites_provider.dart';
 import '../widgets/bottom_nav_pokemon_widget.dart';
 import '../widgets/pokemon_card_widget.dart';
+import 'error_page.dart';
 
 class FavoritosPage extends ConsumerStatefulWidget {
   const FavoritosPage({super.key});
@@ -19,9 +20,8 @@ class _FavoritosPageState extends ConsumerState<FavoritosPage> {
   int _currentTab = 2;
 
   void _removeFavorite(int index) {
-    final removed = ref
-        .read(pokemonFavoritesNotifierProvider.notifier)
-        .removeAt(index);
+    final removed =
+        ref.read(pokemonFavoritesNotifierProvider.notifier).removeAt(index);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -66,56 +66,39 @@ class _FavoritosPageState extends ConsumerState<FavoritosPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => context.go(AppRoutes.pokemonList),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Favoritos',
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1D1D1D),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: const Color(0xFF1D1D1D),
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Favoritos',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1D1D1D),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    favorites.isEmpty
-                        ? 'Aún no tienes favoritos'
-                        : '${favorites.length} Pokémon guardado${favorites.length == 1 ? '' : 's'}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black45,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            // Lista o estado vacío
-            Expanded(
-              child: favorites.isEmpty
-                  ? _EmptyFavorites()
-                  : ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                      itemCount: favorites.length,
-                      itemBuilder: (context, index) {
-                        return _SwipeablePokemonCard(
-                          key: ValueKey(favorites[index].id),
-                          pokemon: favorites[index],
-                          onDismissed: () => _removeFavorite(index),
-                        );
-                      },
-                    ),
-            ),
+            if (favorites.isEmpty)
+              Expanded(
+                child: ErrorPage(
+                  title: 'No has marcado ningún Pokémon como favorito',
+                  message:
+                      'Haz clic en el ícono de corazón de tus Pokémon favoritos y aparecerán aquí.',
+                  buttonEnabled: false,
+                ),
+              )
+            else
+              ..._favoritesPokemon(favorites: favorites),
 
             // Bottom nav
             BottomNavPokemonWidget(
@@ -127,48 +110,49 @@ class _FavoritosPageState extends ConsumerState<FavoritosPage> {
       ),
     );
   }
-}
 
-// ─── Widget estado vacío ────────────────────────────────────────────────────
-
-class _EmptyFavorites extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.favorite_border,
-            size: 80,
-            color: Colors.grey.shade300,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Sin favoritos todavía',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey.shade500,
+  List<Widget> _favoritesPokemon({required List<PokemonEntity> favorites}) {
+    return [
+      // Header
+      Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              favorites.isEmpty
+                  ? 'Aún no tienes favoritos'
+                  : '${favorites.length} Pokémon guardado${favorites.length == 1 ? '' : 's'}',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black45,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Marca Pokémon como favoritos\ndesde la Pokédex',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.grey.shade400,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    );
+
+      const SizedBox(height: 12),
+
+      // Lista o estado vacío
+      Expanded(
+        child: ListView.builder(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          itemCount: favorites.length,
+          itemBuilder: (context, index) {
+            return _SwipeablePokemonCard(
+              key: ValueKey(favorites[index].id),
+              pokemon: favorites[index],
+              onDismissed: () => _removeFavorite(index),
+            );
+          },
+        ),
+      ),
+    ];
   }
 }
 
 // ─── Tarjeta con swipe para eliminar ────────────────────────────────────────
-
 class _SwipeablePokemonCard extends StatelessWidget {
   final PokemonEntity pokemon;
   final VoidCallback onDismissed;

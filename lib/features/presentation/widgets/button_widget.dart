@@ -19,7 +19,7 @@ class ButtonWidget extends StatelessWidget {
             backgroundColor: const Color(0xFF2196F3),
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(30),
             ),
             elevation: 0,
           ),
