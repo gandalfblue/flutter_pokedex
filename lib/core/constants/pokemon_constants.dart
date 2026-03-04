@@ -18,14 +18,15 @@ abstract class PokemonConstants {
 
   static const List<({String label, int value, String range})> generations = [
     (label: 'Gen I',    value: 1, range: '#001 – #151'),
-    (label: 'Gen II',   value: 2, range: '#152 – #251'),
-    (label: 'Gen III',  value: 3, range: '#252 – #386'),
-    (label: 'Gen IV',   value: 4, range: '#387 – #493'),
-    (label: 'Gen V',    value: 5, range: '#494 – #649'),
-    (label: 'Gen VI',   value: 6, range: '#650 – #721'),
-    (label: 'Gen VII',  value: 7, range: '#722 – #809'),
-    (label: 'Gen VIII', value: 8, range: '#810 – #905'),
-    (label: 'Gen IX',   value: 9, range: '#906+'),
+    // Las generaciones posteriores se pueden agregar, cuando las agreguen en el API.
+    // (label: 'Gen II',   value: 2, range: '#152 – #251'),
+    // (label: 'Gen III',  value: 3, range: '#252 – #386'),
+    // (label: 'Gen IV',   value: 4, range: '#387 – #493'),
+    // (label: 'Gen V',    value: 5, range: '#494 – #649'),
+    // (label: 'Gen VI',   value: 6, range: '#650 – #721'),
+    // (label: 'Gen VII',  value: 7, range: '#722 – #809'),
+    // (label: 'Gen VIII', value: 8, range: '#810 – #905'),
+    // (label: 'Gen IX',   value: 9, range: '#906+'),
   ];
 
   // ── Alturas ───────────────────────────────────────────────────────────────
