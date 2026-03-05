@@ -26,21 +26,23 @@ class PokemonDetailHeaderWidget extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               // ── Fondo con ClipPath ──────────────────────────────────
-              // El SizedBox es más pequeño que el Stack para que la curva
-              // que baja tenga espacio visible y no se corte en línea recta.
+              // El gradiente usa los colores del tipo principal del Pokémon.
+              // Si tiene dos tipos, el color del segundo tipo cierra el gradiente.
               ClipPath(
                 clipper: _BottomArcClipper(),
                 child: Container(
                   width: totalWidth,
                   height: totalHeight * 0.90,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Color(0xFF5DBE57),
-                        Color(0xFF78C850),
-                        Color(0xFF9DCE6A),
+                        PokemonTypeUtils.typeColor(pokemon.types.first.name),
+                        PokemonTypeUtils.typeColorBackground(
+                            pokemon.types.first.name),
+                        if (pokemon.types.length > 1)
+                          PokemonTypeUtils.typeColor(pokemon.types[1].name),
                       ],
                     ),
                   ),
