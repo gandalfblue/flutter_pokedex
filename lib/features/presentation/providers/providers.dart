@@ -8,6 +8,7 @@ import '../../data/repositories/pokemon_repository_impl.dart';
 import '../../domain/repositories/pokemon_repository.dart';
 import '../../domain/usecases/get_pokemon_detail_usecase.dart';
 import '../../domain/usecases/get_pokemon_list_usecase.dart';
+import '../../domain/usecases/get_type_weaknesses_usecase.dart';
 import '../../domain/usecases/search_pokemon_usecase.dart';
 
 part 'providers.g.dart';
@@ -38,4 +39,8 @@ GetPokemonDetailUseCase getPokemonDetailUseCase(Ref ref) =>
 @Riverpod(keepAlive: true)
 SearchPokemonUseCase searchPokemonUseCase(Ref ref) =>
     SearchPokemonUseCase(ref.watch(pokemonRepositoryProvider));
+
+@Riverpod(keepAlive: true)
+GetTypeWeaknessesUseCase getTypeWeaknessesUseCase(Ref ref) =>
+    GetTypeWeaknessesUseCase(ref.watch(pokemonRepositoryProvider));
 

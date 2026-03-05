@@ -1,34 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingOneWidget extends StatelessWidget {
   const OnboardingOneWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SizedBox(
             width: 280,
             height: 200,
             child: Stack(
               alignment: Alignment.bottomCenter,
-              children: [Positioned(
-                left: 0,
-                bottom: 0,
-                child: Image.asset(
-                  'assets/images/niño_explorador_onboarding.png',
-                  height: 180,
-                  fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) => const Icon(
-                    Icons.catching_pokemon,
-                    size: 100,
-                    color: Colors.white54,
+              children: [
+                Positioned(
+                  left: 0,
+                  bottom: 0,
+                  child: Image.asset(
+                    'assets/images/niño_explorador_onboarding.png',
+                    height: 180,
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => const Icon(
+                      Icons.catching_pokemon,
+                      size: 100,
+                      color: Colors.white54,
+                    ),
                   ),
                 ),
-              ),
                 Positioned(
                   right: -10,
                   bottom: 0,
@@ -47,10 +50,10 @@ class OnboardingOneWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const Text(
-            'Todos los Pokémon en un solo lugar',
+          Text(
+            l10n.onboardingOneTitleText,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -58,10 +61,10 @@ class OnboardingOneWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Encuentra una sola lista todos los Pokémon de todos los juegos, las generaciones y mucho más.',
+          Text(
+            l10n.onboardingOneBodyText,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white60, fontSize: 14, height: 1.6),
+            style: const TextStyle(color: Colors.white60, fontSize: 14, height: 1.6),
           ),
         ],
       ),

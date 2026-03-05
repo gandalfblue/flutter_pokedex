@@ -5,8 +5,8 @@ import '../../domain/entities/pokemon_entity.dart';
 part 'pokemon_favorites_provider.g.dart';
 
 /// Provider que mantiene la lista de Pokémon favoritos en memoria.
-/// Se puede extender con persistencia local (Hive, SharedPreferences) más adelante.
-@riverpod
+/// keepAlive: true evita que el estado se pierda al navegar entre pantallas.
+@Riverpod(keepAlive: true)
 class PokemonFavoritesNotifier extends _$PokemonFavoritesNotifier {
   @override
   List<PokemonEntity> build() => [];

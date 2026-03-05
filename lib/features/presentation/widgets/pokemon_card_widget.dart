@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/utils/pokemon_type_utils.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../providers/pokemon_favorites_provider.dart';
@@ -18,32 +20,59 @@ class PokemonCardWidget extends ConsumerWidget {
           .select((list) => list.any((p) => p.id == pokemon.id)),
     );
 
+    final cardColorBackground = pokemon.types.isNotEmpty
+        ? PokemonTypeUtils.typeColorBackground(pokemon.types.first.name)
+        : const Color(0xFFAAA67F);
+
     final cardColor = pokemon.types.isNotEmpty
         ? PokemonTypeUtils.typeColor(pokemon.types.first.name)
         : const Color(0xFFAAA67F);
+
+    final String firstType = pokemon.types.isNotEmpty
+        ? pokemon.types.first.name
+        : 'normal';
+
     final formattedId = '#${pokemon.id.toString().padLeft(3, '0')}';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+    return GestureDetector(
+      onTap: () => context.go(
+        AppRoutes.pokemonDetail.replaceFirst(':name', pokemon.name),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
       height: 110,
       decoration: BoxDecoration(
-        color: cardColor,
+        color: cardColorBackground,
         borderRadius: BorderRadius.circular(16),
       ),
       clipBehavior: Clip.hardEdge,
       child: Stack(
         children: [
-          // Decorative pokeball watermark
+
+          // Recuadro de fondo con cardColor detrás de la imagen del Pokémon
           Positioned(
-            right: 80,
-            top: -20,
-            child: Opacity(
-              opacity: 0.12,
-              child: const Icon(
-                Icons.catching_pokemon,
-                size: 120,
-                color: Colors.white,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 110,
+              decoration: BoxDecoration(
+                color: cardColor,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
               ),
+            ),
+          ),
+
+          // Ícono del tipo decorativo encima del recuadro
+          Positioned(
+            right: 5,
+            top: 5,
+            child: Opacity(
+              opacity: 0.55,
+              child: PokemonTypeUtils.typeIcon(firstType, size: 100),
             ),
           ),
 
@@ -62,7 +91,7 @@ class PokemonCardWidget extends ConsumerWidget {
                       Text(
                         formattedId,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.75),
+                          color: Colors.black.withValues(alpha: 0.75),
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.3,
@@ -74,7 +103,7 @@ class PokemonCardWidget extends ConsumerWidget {
                         pokemon.name[0].toUpperCase() +
                             pokemon.name.substring(1),
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           height: 1.1,
@@ -112,28 +141,43 @@ class PokemonCardWidget extends ConsumerWidget {
 
           // Favorite heart button
           Positioned(
-            top: 10,
-            right: 10,
+            top: 8,
+            right: 8,
             child: GestureDetector(
               onTap: () => ref
                   .read(pokemonFavoritesNotifierProvider.notifier)
                   .toggle(pokemon),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                switchInCurve: Curves.elasticOut,
-                transitionBuilder: (child, anim) =>
-                    ScaleTransition(scale: anim, child: child),
-                child: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                  key: ValueKey(isFavorite),
-                  color: isFavorite ? Colors.red[300] : Colors.white70,
-                  size: 22,
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black12.withValues(alpha: 0.30),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                  ),
+                ),
+                child: Center(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    switchInCurve: Curves.elasticOut,
+                    transitionBuilder: (child, anim) =>
+                        ScaleTransition(scale: anim, child: child),
+                    child: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      key: ValueKey(isFavorite),
+                      color: isFavorite ? Colors.red[400] : Colors.white,
+                      size: 20,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
         ],
       ),
-    );
+    ), // cierre Container
+    ); // cierre GestureDetector
   }
 }

@@ -7,15 +7,15 @@ part of 'pokemon_list_provider.dart';
 // **************************************************************************
 
 String _$pokemonListNotifierHash() =>
-    r'baf8b85bf802601e3d71caf804e9d8b1d66208ae';
+    r'fafe8853769d8c3125efb02789b4a545b50a20c9';
 
 /// Provider de estado para la lista paginada de Pokémon.
-/// Usa Notifier para manejar side-effects y estado acumulativo.
+/// keepAlive: true → el estado persiste al navegar, evitando recargas innecesarias.
 ///
 /// Copied from [PokemonListNotifier].
 @ProviderFor(PokemonListNotifier)
 final pokemonListNotifierProvider =
-    AutoDisposeNotifierProvider<PokemonListNotifier, PokemonListState>.internal(
+    NotifierProvider<PokemonListNotifier, PokemonListState>.internal(
   PokemonListNotifier.new,
   name: r'pokemonListNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -25,6 +25,6 @@ final pokemonListNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$PokemonListNotifier = AutoDisposeNotifier<PokemonListState>;
+typedef _$PokemonListNotifier = Notifier<PokemonListState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

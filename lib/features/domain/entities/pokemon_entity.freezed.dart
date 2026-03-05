@@ -25,6 +25,12 @@ mixin _$PokemonEntity {
   List<PokemonStatEntity> get stats => throw _privateConstructorUsedError;
   List<String> get abilities => throw _privateConstructorUsedError;
 
+  /// Descripción (Pokédex entry) en español o inglés.
+  String get description => throw _privateConstructorUsedError;
+
+  /// Categoría del Pokémon (ej. "Seed Pokémon").
+  String get category => throw _privateConstructorUsedError;
+
   /// Create a copy of PokemonEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -46,7 +52,9 @@ abstract class $PokemonEntityCopyWith<$Res> {
       String imageUrl,
       List<PokemonTypeEntity> types,
       List<PokemonStatEntity> stats,
-      List<String> abilities});
+      List<String> abilities,
+      String description,
+      String category});
 }
 
 /// @nodoc
@@ -72,6 +80,8 @@ class _$PokemonEntityCopyWithImpl<$Res, $Val extends PokemonEntity>
     Object? types = null,
     Object? stats = null,
     Object? abilities = null,
+    Object? description = null,
+    Object? category = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -106,6 +116,14 @@ class _$PokemonEntityCopyWithImpl<$Res, $Val extends PokemonEntity>
           ? _value.abilities
           : abilities // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -126,7 +144,9 @@ abstract class _$$PokemonEntityImplCopyWith<$Res>
       String imageUrl,
       List<PokemonTypeEntity> types,
       List<PokemonStatEntity> stats,
-      List<String> abilities});
+      List<String> abilities,
+      String description,
+      String category});
 }
 
 /// @nodoc
@@ -150,6 +170,8 @@ class __$$PokemonEntityImplCopyWithImpl<$Res>
     Object? types = null,
     Object? stats = null,
     Object? abilities = null,
+    Object? description = null,
+    Object? category = null,
   }) {
     return _then(_$PokemonEntityImpl(
       id: null == id
@@ -184,6 +206,14 @@ class __$$PokemonEntityImplCopyWithImpl<$Res>
           ? _value._abilities
           : abilities // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -199,7 +229,9 @@ class _$PokemonEntityImpl implements _PokemonEntity {
       required this.imageUrl,
       required final List<PokemonTypeEntity> types,
       required final List<PokemonStatEntity> stats,
-      required final List<String> abilities})
+      required final List<String> abilities,
+      this.description = '',
+      this.category = ''})
       : _types = types,
         _stats = stats,
         _abilities = abilities;
@@ -238,9 +270,19 @@ class _$PokemonEntityImpl implements _PokemonEntity {
     return EqualUnmodifiableListView(_abilities);
   }
 
+  /// Descripción (Pokédex entry) en español o inglés.
+  @override
+  @JsonKey()
+  final String description;
+
+  /// Categoría del Pokémon (ej. "Seed Pokémon").
+  @override
+  @JsonKey()
+  final String category;
+
   @override
   String toString() {
-    return 'PokemonEntity(id: $id, name: $name, height: $height, weight: $weight, imageUrl: $imageUrl, types: $types, stats: $stats, abilities: $abilities)';
+    return 'PokemonEntity(id: $id, name: $name, height: $height, weight: $weight, imageUrl: $imageUrl, types: $types, stats: $stats, abilities: $abilities, description: $description, category: $category)';
   }
 
   @override
@@ -257,7 +299,11 @@ class _$PokemonEntityImpl implements _PokemonEntity {
             const DeepCollectionEquality().equals(other._types, _types) &&
             const DeepCollectionEquality().equals(other._stats, _stats) &&
             const DeepCollectionEquality()
-                .equals(other._abilities, _abilities));
+                .equals(other._abilities, _abilities) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @override
@@ -270,7 +316,9 @@ class _$PokemonEntityImpl implements _PokemonEntity {
       imageUrl,
       const DeepCollectionEquality().hash(_types),
       const DeepCollectionEquality().hash(_stats),
-      const DeepCollectionEquality().hash(_abilities));
+      const DeepCollectionEquality().hash(_abilities),
+      description,
+      category);
 
   /// Create a copy of PokemonEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -290,7 +338,9 @@ abstract class _PokemonEntity implements PokemonEntity {
       required final String imageUrl,
       required final List<PokemonTypeEntity> types,
       required final List<PokemonStatEntity> stats,
-      required final List<String> abilities}) = _$PokemonEntityImpl;
+      required final List<String> abilities,
+      final String description,
+      final String category}) = _$PokemonEntityImpl;
 
   @override
   int get id;
@@ -308,6 +358,14 @@ abstract class _PokemonEntity implements PokemonEntity {
   List<PokemonStatEntity> get stats;
   @override
   List<String> get abilities;
+
+  /// Descripción (Pokédex entry) en español o inglés.
+  @override
+  String get description;
+
+  /// Categoría del Pokémon (ej. "Seed Pokémon").
+  @override
+  String get category;
 
   /// Create a copy of PokemonEntity
   /// with the given fields replaced by the non-null parameter values.

@@ -113,5 +113,24 @@ final searchPokemonUseCaseProvider = Provider<SearchPokemonUseCase>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SearchPokemonUseCaseRef = ProviderRef<SearchPokemonUseCase>;
+String _$getTypeWeaknessesUseCaseHash() =>
+    r'92e015c92d1cbd074883a0cc8206bb8a83b4b21a';
+
+/// See also [getTypeWeaknessesUseCase].
+@ProviderFor(getTypeWeaknessesUseCase)
+final getTypeWeaknessesUseCaseProvider =
+    Provider<GetTypeWeaknessesUseCase>.internal(
+  getTypeWeaknessesUseCase,
+  name: r'getTypeWeaknessesUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getTypeWeaknessesUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetTypeWeaknessesUseCaseRef = ProviderRef<GetTypeWeaknessesUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
