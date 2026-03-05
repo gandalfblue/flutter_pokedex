@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/utils/pokemon_type_utils.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../providers/pokemon_favorites_provider.dart';
@@ -32,8 +34,12 @@ class PokemonCardWidget extends ConsumerWidget {
 
     final formattedId = '#${pokemon.id.toString().padLeft(3, '0')}';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+    return GestureDetector(
+      onTap: () => context.go(
+        AppRoutes.pokemonDetail.replaceFirst(':name', pokemon.name),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
       height: 110,
       decoration: BoxDecoration(
         color: cardColorBackground,
@@ -171,6 +177,7 @@ class PokemonCardWidget extends ConsumerWidget {
           ),
         ],
       ),
-    );
+    ), // cierre Container
+    ); // cierre GestureDetector
   }
 }

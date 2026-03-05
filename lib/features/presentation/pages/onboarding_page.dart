@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
@@ -45,10 +46,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
           SizedBox(height: 30),
           PageIndicatorWidget(currentPage: _currentPage, totalPages: 2),
           const SizedBox(height: 16),
-          ButtonWidget(
-            label: _currentPage == 0 ? 'Continuar' : 'Empezamos',
-            onTap: _next,
-          ),
+          Builder(builder: (context) {
+            final l10n = AppLocalizations.of(context)!;
+            return ButtonWidget(
+              label: _currentPage == 0 ? l10n.onboardingContinue : l10n.onboardingStart,
+              onTap: _next,
+            );
+          }),
           const SizedBox(height: 40),
         ],
       ),

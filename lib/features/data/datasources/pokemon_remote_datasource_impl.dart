@@ -3,6 +3,8 @@ import '../../../../core/constants/api_constants.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/pokemon_list_response_model.dart';
 import '../models/pokemon_model.dart';
+import '../models/pokemon_species_model.dart';
+import '../models/pokemon_type_damage_model.dart';
 import 'pokemon_remote_datasource.dart';
 
 /// Implementación del datasource que usa Dio para consumir la PokéAPI.
@@ -18,6 +20,13 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
 
   /// Caché de listas por offset: evita recargar páginas ya obtenidas.
   final Map<String, PokemonListResponseModel> _listCache = {};
+
+  /// Caché de relaciones de daño por tipo: 18 tipos son fijos, se cachean
+  /// indefinidamente ya que no cambian entre sesiones.
+  final Map<String, PokemonTypeDamageModel> _typeCache = {};
+
+  /// Caché de species por nombre: descripción y categoría.
+  final Map<String, PokemonSpeciesModel> _speciesCache = {};
 
   /// Umbral mínimo de pokémon en caché para omitir llamadas al API.
   static const int _cacheThreshold = 50;
@@ -77,10 +86,51 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
     }
   }
 
+  @override
+  Future<PokemonSpeciesModel> getPokemonSpecies(String name) async {
+    final key = name.toLowerCase();
+    if (_speciesCache.containsKey(key)) return _speciesCache[key]!;
+
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        '${ApiConstants.pokemonSpecies}/$key',
+      );
+      final model = PokemonSpeciesModel.fromJson(response.data!);
+      _speciesCache[key] = model;
+      return model;
+    } on DioException catch (e) {
+      throw _mapDioError(e);
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<PokemonTypeDamageModel> getPokemonTypeWeaknesses(String typeName) async {
+    final key = typeName.toLowerCase();
+
+    // Los 18 tipos son constantes — se cachean para siempre en la sesión
+    if (_typeCache.containsKey(key)) return _typeCache[key]!;
+
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        '${ApiConstants.type}/$key',
+      );
+      final model = PokemonTypeDamageModel.fromJson(response.data!);
+      _typeCache[key] = model;
+      return model;
+    } on DioException catch (e) {
+      throw _mapDioError(e);
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
   /// Limpia el caché manualmente (útil para forzar recarga).
   void clearCache() {
     _detailCache.clear();
     _listCache.clear();
+    _speciesCache.clear();
   }
 
   /// Convierte errores de Dio en excepciones tipadas (Strategy Pattern).

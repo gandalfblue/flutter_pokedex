@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/constants/pokemon_constants.dart';
 import '../../../../core/utils/pokemon_type_utils.dart';
 import '../providers/pokemon_filter_provider.dart';
 
-class PokemonFilterModal extends ConsumerWidget {
-  const PokemonFilterModal({super.key});
+class PokemonFilterModalWidget extends ConsumerWidget {
+  const PokemonFilterModalWidget({super.key});
 
   static Future<void> show(BuildContext context) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => const PokemonFilterModal(),
+      builder: (_) => const PokemonFilterModalWidget(),
     );
   }
 
@@ -52,30 +53,33 @@ class PokemonFilterModal extends ConsumerWidget {
               // ── Título + botón limpiar ──────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Filtra por tus preferencias',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1D1D1D),
-                      ),
-                    ),
-                    if (filter.hasActiveFilter)
-                      TextButton.icon(
-                        onPressed: notifier.clearAll,
-                        icon: const Icon(Icons.clear_outlined, size: 18),
-                        label: const Text('Limpiar todo'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.red[400],
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          textStyle: const TextStyle(fontSize: 13),
+                child: Builder(builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        l10n.filterModalTitle,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1D1D1D),
                         ),
                       ),
-                  ],
-                ),
+                      if (filter.hasActiveFilter)
+                        TextButton.icon(
+                          onPressed: notifier.clearAll,
+                          icon: const Icon(Icons.clear_outlined, size: 18),
+                          label: Text(l10n.filterModalClearAll),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.red[400],
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            textStyle: const TextStyle(fontSize: 13),
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ),
 
               // ── Selector de categoría (chips horizontales) ──────────────
@@ -168,24 +172,29 @@ class PokemonFilterModal extends ConsumerWidget {
                 child: SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1D1D1D),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                  child: Builder(builder: (context) {
+                    final l10n = AppLocalizations.of(context)!;
+                    return ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1D1D1D),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 0,
                       ),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      filter.hasActiveFilter ? 'Aplicar filtros' : 'Ver todos',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                      child: Text(
+                        filter.hasActiveFilter
+                            ? l10n.filterModalApply
+                            : l10n.filterModalViewAll,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                 ),
               ),
             ],
@@ -221,14 +230,15 @@ class _TypeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 4),
         Text(
           filter.selectedTypes.isEmpty
-              ? 'Selecciona uno o más tipos'
-              : '${filter.selectedTypes.length} tipo(s) seleccionado(s)',
+              ? l10n.filterTypeSelectHint
+              : l10n.filterTypeSelected(filter.selectedTypes.length),
           style: const TextStyle(fontSize: 13, color: Colors.black45),
         ),
         const SizedBox(height: 12),
@@ -319,13 +329,14 @@ class _GenerationContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 4),
-        const Text(
-          'Selecciona una generación',
-          style: TextStyle(fontSize: 13, color: Colors.black45),
+        Text(
+          l10n.filterGenerationHint,
+          style: const TextStyle(fontSize: 13, color: Colors.black45),
         ),
         const SizedBox(height: 12),
         GridView.builder(
@@ -398,7 +409,7 @@ class _HeightContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _OptionGrid(
-        label: 'Selecciona un rango de altura',
+        label: AppLocalizations.of(context)!.filterHeightHint,
         items: PokemonConstants.heights
             .map((h) => _OptionItem(
                   label: h.label,
@@ -422,7 +433,7 @@ class _WeightContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _OptionGrid(
-        label: 'Selecciona un rango de peso',
+        label: AppLocalizations.of(context)!.filterWeightHint,
         items: PokemonConstants.weights
             .map((w) => _OptionItem(
                   label: w.label,

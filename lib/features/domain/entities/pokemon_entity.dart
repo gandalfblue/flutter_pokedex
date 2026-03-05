@@ -17,6 +17,10 @@ class PokemonEntity with _$PokemonEntity {
     required List<PokemonTypeEntity> types,
     required List<PokemonStatEntity> stats,
     required List<String> abilities,
+    /// Descripción (Pokédex entry) en español o inglés.
+    @Default('') String description,
+    /// Categoría del Pokémon (ej. "Seed Pokémon").
+    @Default('') String category,
   }) = _PokemonEntity;
 }
 

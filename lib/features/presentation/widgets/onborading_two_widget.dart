@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingTwoWidget extends StatelessWidget {
   const OnboardingTwoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Column(
@@ -14,7 +16,7 @@ class OnboardingTwoWidget extends StatelessWidget {
             width: 180,
             height: 200,
             child: Image.asset(
-              'assets/images/entrenadora_onborading.png',
+              'assets/images/entrenadora.png',
               fit: BoxFit.contain,
               errorBuilder:
                   (_, __, ___) => const Icon(
@@ -25,10 +27,10 @@ class OnboardingTwoWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const Text(
-            'Mantén tu Pokédex actualizada',
+          Text(
+            l10n.onboardingTwoTitleText,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -36,10 +38,10 @@ class OnboardingTwoWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Registra y gestiona todos tus Pokémon. Revisa tus colecciones y muchas más en la aplicación.',
+          Text(
+            l10n.onboardingTwoBodyText,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white60, fontSize: 14, height: 1.6),
+            style: const TextStyle(color: Colors.white60, fontSize: 14, height: 1.6),
           ),
         ],
       ),

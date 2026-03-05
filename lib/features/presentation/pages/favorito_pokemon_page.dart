@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,19 +18,18 @@ class FavoritosPage extends ConsumerStatefulWidget {
 }
 
 class _FavoritosPageState extends ConsumerState<FavoritosPage> {
-  int _currentTab = 2;
-
   void _removeFavorite(int index) {
+    final l10n = AppLocalizations.of(context)!;
     final removed =
         ref.read(pokemonFavoritesNotifierProvider.notifier).removeAt(index);
+    final name =
+        '${removed.name[0].toUpperCase()}${removed.name.substring(1)}';
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          '${removed.name[0].toUpperCase()}${removed.name.substring(1)} eliminado de favoritos',
-        ),
+        content: Text(l10n.favoritesRemovedSnackbar(name)),
         action: SnackBarAction(
-          label: 'Deshacer',
+          label: l10n.favoritesUndoButton,
           onPressed: () {
             ref
                 .read(pokemonFavoritesNotifierProvider.notifier)
@@ -45,24 +45,10 @@ class _FavoritosPageState extends ConsumerState<FavoritosPage> {
     );
   }
 
-  void _onTabTap(int index) {
-    if (index == _currentTab) return;
-    setState(() => _currentTab = index);
-    switch (index) {
-      case 0:
-        context.go(AppRoutes.pokemonList);
-        break;
-      case 2:
-        // Ya estamos aquí
-        break;
-      default:
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final favorites = ref.watch(pokemonFavoritesNotifierProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -72,9 +58,9 @@ class _FavoritosPageState extends ConsumerState<FavoritosPage> {
           onPressed: () => context.go(AppRoutes.pokemonList),
         ),
         centerTitle: true,
-        title: const Text(
-          'Favoritos',
-          style: TextStyle(
+        title: Text(
+          l10n.favoritesTitle,
+          style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Color(0xFF1D1D1D),
@@ -91,27 +77,26 @@ class _FavoritosPageState extends ConsumerState<FavoritosPage> {
             if (favorites.isEmpty)
               Expanded(
                 child: ErrorPage(
-                  title: 'No has marcado ningún Pokémon como favorito',
-                  message:
-                      'Haz clic en el ícono de corazón de tus Pokémon favoritos y aparecerán aquí.',
+                  title: l10n.favoritesEmptyTitle,
+                  message: l10n.favoritesEmptyMessage,
                   buttonEnabled: false,
                 ),
               )
             else
-              ..._favoritesPokemon(favorites: favorites),
+              ..._favoritesPokemon(favorites: favorites, l10n: l10n),
 
             // Bottom nav
-            BottomNavPokemonWidget(
-              currentIndex: _currentTab,
-              onTap: _onTabTap,
-            ),
+            const BottomNavPokemonWidget(),
           ],
         ),
       ),
     );
   }
 
-  List<Widget> _favoritesPokemon({required List<PokemonEntity> favorites}) {
+  List<Widget> _favoritesPokemon({
+    required List<PokemonEntity> favorites,
+    required AppLocalizations l10n,
+  }) {
     return [
       // Header
       Padding(
@@ -120,9 +105,7 @@ class _FavoritosPageState extends ConsumerState<FavoritosPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              favorites.isEmpty
-                  ? 'Aún no tienes favoritos'
-                  : '${favorites.length} Pokémon guardado${favorites.length == 1 ? '' : 's'}',
+              l10n.favoritesCount(favorites.length),
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black45,

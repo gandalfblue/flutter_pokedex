@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter_pokemon/features/presentation/widgets/pokeball_progress_indicator_widget.dart';
@@ -25,7 +26,6 @@ class PokemonListPage extends ConsumerStatefulWidget {
 
 class _PokemonListPageState extends ConsumerState<PokemonListPage> {
   final _scrollController = ScrollController();
-  int _currentTab = 0;
 
   @override
   void initState() {
@@ -55,6 +55,7 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
 
     // Si hay error y no hay pokémones cargados, mostrar pantalla de error completa
     if (listState.errorMessage != null && listState.pokemons.isEmpty) {
+      final l10n = AppLocalizations.of(context)!;
       return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -62,22 +63,14 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
             children: [
               Expanded(
                 child: ErrorPage(
-                  title: 'Algo salió mal...',
-                  message:
-                      'No pudimos cargar la información en este momento. Verifica tu conexión e intenta nuevamente.',
+                  title: l10n.errorLoadTitle,
+                  message: l10n.errorLoadMessage,
                   buttonEnabled: true,
                   onRetry: () =>
                       ref.read(pokemonListNotifierProvider.notifier).loadInitial(),
                 ),
               ),
-              BottomNavPokemonWidget(
-                currentIndex: _currentTab,
-                onTap: (i) {
-                  if (i == _currentTab) return;
-                  setState(() => _currentTab = i);
-                  if (i == 2) context.go(AppRoutes.favorites);
-                },
-              ),
+              const BottomNavPokemonWidget(),
             ],
           ),
         ),
@@ -103,37 +96,40 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
             // Header
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Row(
-                    children: [
-                      SizedBox(width: 8),
-                      Text(
-                        'Pokédex',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1D1D1D),
+              child: Builder(builder: (context) {
+                final l10n = AppLocalizations.of(context)!;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 8),
+                        Text(
+                          l10n.appTitle,
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1D1D1D),
+                          ),
                         ),
-                      ),
-                      Icon(Icons.catching_pokemon, color: Color(0xFF1D1D1D)),
-                    ],
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Busca tu Pokémon favorito',
-                    style: TextStyle(fontSize: 14, color: Colors.black45),
-                  ),
-                ],
-              ),
+                        const Icon(Icons.catching_pokemon, color: Color(0xFF1D1D1D)),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.homeSubtitle,
+                      style: const TextStyle(fontSize: 14, color: Colors.black45),
+                    ),
+                  ],
+                );
+              }),
             ),
 
             // Search bar con botón de filtro
             SearchBarWidget(
               hasActiveFilter: filterState.hasActiveFilter,
-              onFilterTap: () => PokemonFilterModal.show(context),
+              onFilterTap: () => PokemonFilterModalWidget.show(context),
               onChanged: (query) {
                 if (query.isEmpty) {
                   ref.read(pokemonSearchNotifierProvider.notifier).clear();
@@ -147,71 +143,74 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
             if (filterState.hasActiveFilter)
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Filtros: ',
-                        style: TextStyle(fontSize: 12, color: Colors.black45),
-                      ),
-                      // Chips de tipos seleccionados
-                      ...filterState.selectedTypes.map((t) => FilterChipWidget(
-                            label: PokemonTypeUtils.typeName(t),
-                            icon: PokemonTypeUtils.typeIcon(t, size: 12),
-                            color: PokemonTypeUtils.typeColor(t),
-                            textColor: PokemonTypeUtils.typeTextColor(t),
+                child: Builder(builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Text(
+                          l10n.filtersLabel,
+                          style: const TextStyle(fontSize: 12, color: Colors.black45),
+                        ),
+                        // Chips de tipos seleccionados
+                        ...filterState.selectedTypes.map((type) => FilterChipWidget(
+                              label: PokemonTypeUtils.typeName(type),
+                              icon: PokemonTypeUtils.typeIcon(type, size: 12),
+                              color: PokemonTypeUtils.typeColor(type),
+                              textColor: PokemonTypeUtils.typeTextColor(type),
+                              onRemove: () => ref
+                                  .read(pokemonFilterNotifierProvider.notifier)
+                                  .toggleType(type),
+                            )),
+                        // Chip de generación
+                        if (filterState.selectedGeneration != null)
+                          FilterChipWidget(
+                            label: '${l10n.filterGenPrefix}${filterState.selectedGeneration}',
+                            icon: const Icon(Icons.auto_stories_rounded,
+                                size: 12, color: Colors.white),
+                            color: const Color(0xFF1D1D1D),
+                            textColor: Colors.white,
                             onRemove: () => ref
                                 .read(pokemonFilterNotifierProvider.notifier)
-                                .toggleType(t),
-                          )),
-                      // Chip de generación
-                      if (filterState.selectedGeneration != null)
-                        FilterChipWidget(
-                          label: 'Gen ${filterState.selectedGeneration}',
-                          icon: const Icon(Icons.auto_stories_rounded,
-                              size: 12, color: Colors.white),
-                          color: const Color(0xFF1D1D1D),
-                          textColor: Colors.white,
-                          onRemove: () => ref
-                              .read(pokemonFilterNotifierProvider.notifier)
-                              .setGeneration(filterState.selectedGeneration),
-                        ),
-                      // Chip de altura
-                      if (filterState.heightRange != null)
-                        FilterChipWidget(
-                          label: switch (filterState.heightRange!) {
-                            'small' => 'Altura: Pequeño',
-                            'medium' => 'Altura: Mediano',
-                            _ => 'Altura: Grande',
-                          },
-                          icon: const Icon(Icons.height_rounded,
-                              size: 12, color: Colors.white),
-                          color: const Color(0xFF1D1D1D),
-                          textColor: Colors.white,
-                          onRemove: () => ref
-                              .read(pokemonFilterNotifierProvider.notifier)
-                              .setHeightRange(filterState.heightRange),
-                        ),
-                      // Chip de peso
-                      if (filterState.weightRange != null)
-                        FilterChipWidget(
-                          label: switch (filterState.weightRange!) {
-                            'light' => 'Peso: Ligero',
-                            'medium' => 'Peso: Mediano',
-                            _ => 'Peso: Pesado',
-                          },
-                          icon: const Icon(Icons.scale_rounded,
-                              size: 12, color: Colors.white),
-                          color: const Color(0xFF1D1D1D),
-                          textColor: Colors.white,
-                          onRemove: () => ref
-                              .read(pokemonFilterNotifierProvider.notifier)
-                              .setWeightRange(filterState.weightRange),
-                        ),
-                    ],
-                  ),
-                ),
+                                .setGeneration(filterState.selectedGeneration),
+                          ),
+                        // Chip de altura
+                        if (filterState.heightRange != null)
+                          FilterChipWidget(
+                            label: switch (filterState.heightRange!) {
+                              'small'  => l10n.filterHeightSmall,
+                              'medium' => l10n.filterHeightMedium,
+                              _        => l10n.filterHeightLarge,
+                            },
+                            icon: const Icon(Icons.height_rounded,
+                                size: 12, color: Colors.white),
+                            color: const Color(0xFF1D1D1D),
+                            textColor: Colors.white,
+                            onRemove: () => ref
+                                .read(pokemonFilterNotifierProvider.notifier)
+                                .setHeightRange(filterState.heightRange),
+                          ),
+                        // Chip de peso
+                        if (filterState.weightRange != null)
+                          FilterChipWidget(
+                            label: switch (filterState.weightRange!) {
+                              'light'  => l10n.filterWeightLight,
+                              'medium' => l10n.filterWeightMedium,
+                              _        => l10n.filterWeightHeavy,
+                            },
+                            icon: const Icon(Icons.scale_rounded,
+                                size: 12, color: Colors.white),
+                            color: const Color(0xFF1D1D1D),
+                            textColor: Colors.white,
+                            onRemove: () => ref
+                                .read(pokemonFilterNotifierProvider.notifier)
+                                .setWeightRange(filterState.weightRange),
+                          ),
+                      ],
+                    ),
+                  );
+                }),
               ),
 
             // Body
@@ -220,14 +219,7 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
             ),
 
             // Bottom nav
-            BottomNavPokemonWidget(
-              currentIndex: _currentTab,
-              onTap: (i) {
-                if (i == _currentTab) return;
-                setState(() => _currentTab = i);
-                if (i == 2) context.go(AppRoutes.favorites);
-              },
-            ),
+            const BottomNavPokemonWidget(),
           ],
         ),
       ),
@@ -272,12 +264,12 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(Icons.search_off, size: 48, color: Colors.grey),
-            SizedBox(height: 12),
+          children: [
+            const Icon(Icons.search_off, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
             Text(
-              'No se encontraron Pokémon',
-              style: TextStyle(color: Colors.grey),
+              AppLocalizations.of(context)!.noResultsFound,
+              style: const TextStyle(color: Colors.grey),
             ),
           ],
         ),

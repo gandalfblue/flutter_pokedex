@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -14,6 +15,7 @@ class SearchBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: Container(
@@ -29,7 +31,7 @@ class SearchBarWidget extends StatelessWidget {
           onChanged: onChanged,
           style: const TextStyle(fontSize: 14, color: Colors.black87),
           decoration: InputDecoration(
-            hintText: 'Buscar Pokémon...',
+            hintText: l10n.searchHint,
             hintStyle: const TextStyle(color: Colors.black38, fontSize: 14),
             prefixIcon:
                 const Icon(Icons.search, color: Colors.black38, size: 20),

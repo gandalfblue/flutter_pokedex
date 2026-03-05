@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../widgets/ghost_pokemon_widget.dart';
 
 class ErrorPage extends StatelessWidget {
@@ -71,9 +71,9 @@ class ErrorPage extends StatelessWidget {
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      'Reintentar',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.retryButton,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.5,

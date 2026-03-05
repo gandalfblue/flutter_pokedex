@@ -3,49 +3,44 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
 
+/// Bottom navigation bar auto-gestionado.
+///
+/// Detecta la ruta activa automáticamente usando [GoRouterState]
+/// y navega sin necesidad de pasar [currentIndex] ni [onTap] desde
+/// las pages padre.  Las pages solo hacen:
+///
+/// ```dart
+/// BottomNavPokemonWidget()
+/// ```
 class BottomNavPokemonWidget extends StatelessWidget {
-  final int currentIndex;
-  final ValueChanged<int>? onTap;
+  const BottomNavPokemonWidget({super.key});
 
-  const BottomNavPokemonWidget({
-    super.key,
-    required this.currentIndex,
-    this.onTap,
-  });
+  // ── Definición de tabs ────────────────────────────────────────────────────
+  static const _tabs = [
+    _NavTab(icon: Icons.catching_pokemon, label: 'Pokédex', route: AppRoutes.pokemonList),
+    _NavTab(icon: Icons.favorite,         label: 'Favoritos', route: AppRoutes.favorites),
+    _NavTab(icon: Icons.person_outline,   label: 'Perfil',   route: AppRoutes.profile),
+  ];
 
-  void _handleTap(BuildContext context, int index) {
-    if (onTap != null) {
-      onTap!(index);
-      return;
-    }
-    switch (index) {
-      case 0:
-        context.go(AppRoutes.pokemonList);
-        break;
-      case 2:
-        context.go(AppRoutes.favorites);
-        break;
-      default:
-        break;
-    }
+  /// Devuelve el índice activo según la ruta actual.
+  int _activeIndex(String location) {
+    if (location.startsWith(AppRoutes.favorites)) return 1;
+    if (location.startsWith(AppRoutes.profile) ||
+        location == AppRoutes.login ||
+        location == AppRoutes.register) return 2;
+    return 0; // pokemonList y pokemonDetail
   }
 
   @override
   Widget build(BuildContext context) {
-    const items = [
-      {'icon': Icons.catching_pokemon, 'label': 'Pokédex'},
-      {'icon': Icons.public, 'label': 'Regiones'},
-      {'icon': Icons.favorite, 'label': 'Favoritos'},
-      {'icon': Icons.person_outline, 'label': 'Perfil'},
-    ];
+    final location = GoRouterState.of(context).matchedLocation;
+    final active  = _activeIndex(location);
 
     return Container(
       height: 68,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
-          top: BorderSide(color: Colors.grey.shade200, width: 1),
-        ),
+        border: Border(top: BorderSide(color: Colors.grey.shade200, width: 1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -56,28 +51,28 @@ class BottomNavPokemonWidget extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(items.length, (i) {
-          final isActive = i == currentIndex;
-          final color =
-          isActive ? const Color(0xFF2196F3) : Colors.grey.shade400;
+        children: List.generate(_tabs.length, (i) {
+          final isActive = i == active;
+          final color = isActive ? const Color(0xFF2196F3) : Colors.grey.shade400;
           return GestureDetector(
-            onTap: () => _handleTap(context, i),
+            onTap: () {
+              if (i == active) return;
+              context.go(_tabs[i].route);
+            },
             behavior: HitTestBehavior.opaque,
             child: SizedBox(
               width: 70,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(items[i]['icon'] as IconData, color: color, size: 22),
+                  Icon(_tabs[i].icon, color: color, size: 22),
                   const SizedBox(height: 4),
                   Text(
-                    items[i]['label'] as String,
+                    _tabs[i].label,
                     style: TextStyle(
                       color: color,
                       fontSize: 10,
-                      fontWeight: isActive
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+                      fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
                     ),
                   ),
                 ],
@@ -88,4 +83,12 @@ class BottomNavPokemonWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Modelo interno de un tab de navegación.
+class _NavTab {
+  final IconData icon;
+  final String label;
+  final String route;
+  const _NavTab({required this.icon, required this.label, required this.route});
 }
