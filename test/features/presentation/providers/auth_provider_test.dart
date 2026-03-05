@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_pokemon/features/presentation/providers/auth_provider.dart';
+import '../../../helpers/fake_app_localizations.dart';
 
 // ── Datos de prueba (ficticios, sólo para tests) ──────────────────────────────
 // Estos valores NO corresponden a credenciales reales.
@@ -22,6 +23,9 @@ const _tWeakNoSpecial   = 'Abcdefg123';           // sin carácter especial
 const _tStrongMin10     = 'P@ssw0rd1x';           // exactamente 10 caracteres válidos
 const _tStrongLong      = 'C0mplex_P@ssw0rd_Lng'; // larga y compleja
 // ─────────────────────────────────────────────────────────────────────────────
+
+/// Instancia compartida del stub de localización para todos los tests.
+final _l10n = FakeAppLocalizations();
 
 ProviderContainer _makeContainer() {
   final c = ProviderContainer();
@@ -88,6 +92,7 @@ void main() {
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(error, isNull);
       expect(c.read(authNotifierProvider).isLoggedIn, isTrue);
@@ -101,6 +106,7 @@ void main() {
             email: _tEmailFemale,
             password: _tValidPassword2,
             gender: TrainerGender.trainerFemale,
+            l10n: _l10n,
           );
       expect(
         c.read(authNotifierProvider).user?.gender,
@@ -115,6 +121,7 @@ void main() {
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
       expect(c.read(authNotifierProvider).isLoggedIn, isFalse);
@@ -127,6 +134,7 @@ void main() {
             email: 'correo-invalido',
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
     });
@@ -138,6 +146,7 @@ void main() {
             email: _tEmail,
             password: _tWeakPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
     });
@@ -149,15 +158,17 @@ void main() {
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       final error = c.read(authNotifierProvider.notifier).register(
             username: _tUsername,
             email: _tEmailAlt,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
-      expect(error, contains('ya está en uso'));
+      expect(error, equals(_l10n.authErrorUsernameTaken));
     });
 
     test('rechaza email duplicado', () {
@@ -167,15 +178,17 @@ void main() {
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       final error = c.read(authNotifierProvider.notifier).register(
             username: _tUsernameAlt,
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
-      expect(error, contains('registrado'));
+      expect(error, equals(_l10n.authErrorEmailTaken));
     });
 
     test('username es case-insensitive para duplicados', () {
@@ -185,12 +198,14 @@ void main() {
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       final error = c.read(authNotifierProvider.notifier).register(
             username: _tUsernameMixedUp,
             email: _tEmailAlt,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
     });
@@ -205,6 +220,7 @@ void main() {
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       // Hacer logout para simular que no está logueado
       c.read(authNotifierProvider.notifier).logout();
@@ -216,6 +232,7 @@ void main() {
       final error = c.read(authNotifierProvider.notifier).login(
             username: _tUsername,
             password: _tValidPassword,
+            l10n: _l10n,
           );
       expect(error, isNull);
       expect(c.read(authNotifierProvider).isLoggedIn, isTrue);
@@ -227,6 +244,7 @@ void main() {
       final error = c.read(authNotifierProvider.notifier).login(
             username: _tUsernameMixedUp,
             password: _tValidPassword,
+            l10n: _l10n,
           );
       expect(error, isNull);
     });
@@ -237,6 +255,7 @@ void main() {
       final error = c.read(authNotifierProvider.notifier).login(
             username: _tUsername,
             password: _tWrongPassword,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
       expect(c.read(authNotifierProvider).isLoggedIn, isFalse);
@@ -247,6 +266,7 @@ void main() {
       final error = c.read(authNotifierProvider.notifier).login(
             username: 'no_existe_test',
             password: _tValidPassword,
+            l10n: _l10n,
           );
       expect(error, isNotNull);
     });
@@ -256,6 +276,7 @@ void main() {
       final error = c.read(authNotifierProvider.notifier).login(
             username: '',
             password: '',
+            l10n: _l10n,
           );
       expect(error, isNotNull);
     });
@@ -270,6 +291,7 @@ void main() {
             email: _tEmail,
             password: _tValidPassword,
             gender: TrainerGender.trainer,
+            l10n: _l10n,
           );
       expect(c.read(authNotifierProvider).isLoggedIn, isTrue);
       c.read(authNotifierProvider.notifier).logout();

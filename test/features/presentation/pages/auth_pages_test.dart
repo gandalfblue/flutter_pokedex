@@ -28,7 +28,11 @@ class _FakeAuthNotifier extends AuthNotifier {
   AuthState build() => const AuthState();
 
   @override
-  String? login({required String username, required String password}) {
+  String? login({
+    required String username,
+    required String password,
+    required AppLocalizations l10n,
+  }) {
     if (_loginError != null) return _loginError;
     state = AuthState(
       isLoggedIn: true,
@@ -57,6 +61,7 @@ class _FakeRegisterNotifier extends AuthNotifier {
     required String email,
     required String password,
     required TrainerGender gender,
+    required AppLocalizations l10n,
   }) {
     if (_registerError != null) return _registerError;
     // No loguea: el register_page hace logout después de registrar

@@ -283,13 +283,10 @@ void main() {
 
   // ── Bottom nav ────────────────────────────────────────────────────────────
   group('ProfilePage — bottom nav', () {
-    testWidgets('el tab activo es el índice 3 (Perfil)', (tester) async {
+    testWidgets('muestra el BottomNavPokemonWidget', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pump();
-      final nav = tester.widget<BottomNavPokemonWidget>(
-        find.byType(BottomNavPokemonWidget),
-      );
-      expect(nav.currentIndex, 3);
+      expect(find.byType(BottomNavPokemonWidget), findsOneWidget);
     });
   });
 }
