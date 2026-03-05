@@ -236,5 +236,16 @@
   "@authWelcome": {
     "description": "Mensaje de bienvenida tras el login",
     "placeholders": { "name": { "type": "String" } }
-  }
+  },
+
+  "authErrorUsernameRequired": "El nombre de usuario es requerido.",
+  "@authErrorUsernameRequired": { "description": "Error registro: usuario vacío" },
+  "authErrorInvalidEmail": "Ingresa un correo electrónico válido.",
+  "@authErrorInvalidEmail": { "description": "Error registro: email inválido" },
+  "authErrorWeakPassword": "La contraseña debe tener mínimo 10 caracteres, letras, números y un carácter especial.",
+  "@authErrorWeakPassword": { "description": "Error registro: contraseña débil" },
+  "authErrorUsernameTaken": "El nombre de usuario ya está en uso.",
+  "@authErrorUsernameTaken": { "description": "Error registro: usuario duplicado" },
+  "authErrorEmailTaken": "El correo ya está registrado.",
+  "@authErrorEmailTaken": { "description": "Error registro: email duplicado" }
 }

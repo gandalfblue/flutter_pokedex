@@ -33,9 +33,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _errorMessage = null);
 
+    final l10n = AppLocalizations.of(context)!;
     final error = ref.read(authNotifierProvider.notifier).login(
           username: _usernameCtrl.text,
           password: _passwordCtrl.text,
+          l10n: l10n,
         );
 
     if (error != null) {

@@ -236,5 +236,16 @@
   "@authWelcome": {
     "description": "Welcome message after login",
     "placeholders": { "name": { "type": "String" } }
-  }
+  },
+
+  "authErrorUsernameRequired": "Username is required.",
+  "@authErrorUsernameRequired": { "description": "Register error: empty username" },
+  "authErrorInvalidEmail": "Enter a valid email address.",
+  "@authErrorInvalidEmail": { "description": "Register error: invalid email" },
+  "authErrorWeakPassword": "Password must have at least 10 characters, letters, numbers and a special character.",
+  "@authErrorWeakPassword": { "description": "Register error: weak password" },
+  "authErrorUsernameTaken": "Username is already taken.",
+  "@authErrorUsernameTaken": { "description": "Register error: duplicate username" },
+  "authErrorEmailTaken": "Email is already registered.",
+  "@authErrorEmailTaken": { "description": "Register error: duplicate email" }
 }

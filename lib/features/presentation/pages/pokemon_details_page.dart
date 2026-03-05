@@ -153,7 +153,7 @@ class _PokemonDetailPageState extends ConsumerState<PokemonDetailPage>
 
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomNavPokemonWidget(currentIndex: 0),
+      bottomNavigationBar: BottomNavPokemonWidget(),
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [

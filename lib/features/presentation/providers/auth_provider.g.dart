@@ -6,9 +6,10 @@ part of 'auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authNotifierHash() => r'84e2e2e5fab98e4bafc2e8d252dc4d58d8d613d5';
+String _$authNotifierHash() => r'c04bd4ad7b69d25fd63050a0a260188bd08c5857';
 
-/// Provider de autenticación. keepAlive: true → persiste sesión.
+/// Provider de autenticación. keepAlive: true → persiste sesión en RAM.
+/// ⚠️ Los usuarios se almacenan únicamente en memoria: se pierden al cerrar la app.
 ///
 /// Copied from [AuthNotifier].
 @ProviderFor(AuthNotifier)

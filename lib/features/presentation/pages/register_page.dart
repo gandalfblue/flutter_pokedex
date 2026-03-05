@@ -59,6 +59,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           email: _emailCtrl.text,
           password: _passwordCtrl.text,
           gender: _gender,
+          l10n: l10n,
         );
 
     if (error != null) {

@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,7 +30,8 @@ class AuthState with _$AuthState {
   }) = _AuthState;
 }
 
-/// Provider de autenticación. keepAlive: true → persiste sesión.
+/// Provider de autenticación. keepAlive: true → persiste sesión en RAM.
+/// ⚠️ Los usuarios se almacenan únicamente en memoria: se pierden al cerrar la app.
 @Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   // Base de datos en memoria de usuarios registrados.
@@ -40,53 +42,60 @@ class AuthNotifier extends _$AuthNotifier {
 
   // ── Registro ────────────────────────────────────────────────────────────
 
-  /// Registra un nuevo usuario. Devuelve null si OK, o mensaje de error.
+  /// Registra un nuevo usuario.
+  /// [l10n] provee los mensajes de error localizados.
+  /// Devuelve null si OK, o el mensaje de error correspondiente.
   String? register({
     required String username,
     required String email,
     required String password,
     required TrainerGender gender,
+    required AppLocalizations l10n,
   }) {
-    // Validaciones
-    if (username.trim().isEmpty) return 'El nombre de usuario es requerido.';
-    if (!_isValidEmail(email)) return 'Ingresa un correo electrónico válido.';
-    if (!_isStrongPassword(password)) {
-      return 'La contraseña debe tener mínimo 10 caracteres, '
-          'letras, números y un carácter especial.';
-    }
-    // Duplicados
+    if (username.trim().isEmpty) return l10n.authErrorUsernameRequired;
+    if (!_isValidEmail(email))   return l10n.authErrorInvalidEmail;
+    if (!_isStrongPassword(password)) return l10n.authErrorWeakPassword;
+
     if (_users.any((u) => u.username.toLowerCase() == username.toLowerCase())) {
-      return 'El nombre de usuario ya está en uso.';
+      return l10n.authErrorUsernameTaken;
     }
     if (_users.any((u) => u.email.toLowerCase() == email.toLowerCase())) {
-      return 'El correo ya está registrado.';
+      return l10n.authErrorEmailTaken;
     }
 
     final user = AuthUser(
       username: username.trim(),
-      email: email.trim().toLowerCase(),
+      email:    email.trim().toLowerCase(),
       password: password,
-      gender: gender,
+      gender:   gender,
     );
     _users.add(user);
     state = AuthState(isLoggedIn: true, user: user);
-    return null; // OK
+    return null;
   }
 
   // ── Login ────────────────────────────────────────────────────────────────
 
-  /// Inicia sesión. Devuelve null si OK, o mensaje de error.
-  String? login({required String username, required String password}) {
+  /// Inicia sesión.
+  /// [l10n] provee los mensajes de error localizados.
+  /// Devuelve null si OK, o el mensaje de error correspondiente.
+  String? login({
+    required String username,
+    required String password,
+    required AppLocalizations l10n,
+  }) {
     if (username.trim().isEmpty || password.isEmpty) {
-      return 'Completa todos los campos.';
+      return l10n.loginErrorEmpty;
     }
+
     final match = _users.cast<AuthUser?>().firstWhere(
-          (u) =>
-              u!.username.toLowerCase() == username.trim().toLowerCase() &&
-              u.password == password,
-          orElse: () => null,
-        );
-    if (match == null) return 'Usuario o contraseña incorrectos.';
+      (u) =>
+          u!.username.toLowerCase() == username.trim().toLowerCase() &&
+          u.password == password,
+      orElse: () => null,
+    );
+
+    if (match == null) return l10n.loginErrorInvalid;
     state = AuthState(isLoggedIn: true, user: match);
     return null;
   }
@@ -97,9 +106,8 @@ class AuthNotifier extends _$AuthNotifier {
 
   // ── Validadores ──────────────────────────────────────────────────────────
 
-  bool _isValidEmail(String email) {
-    return RegExp(r'^[\w\.\-]+@[\w\-]+\.[a-zA-Z]{2,}$').hasMatch(email.trim());
-  }
+  bool _isValidEmail(String email) =>
+      RegExp(r'^[\w\.\-]+@[\w\-]+\.[a-zA-Z]{2,}$').hasMatch(email.trim());
 
   static bool _isStrongPassword(String password) {
     if (password.length < 10) return false;
@@ -114,4 +122,3 @@ class AuthNotifier extends _$AuthNotifier {
   /// Exposición pública para usar en el validador del formulario.
   static bool validatePassword(String password) => _isStrongPassword(password);
 }
-
