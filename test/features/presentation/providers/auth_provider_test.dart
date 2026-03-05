@@ -2,6 +2,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_pokemon/features/presentation/providers/auth_provider.dart';
 
+// ── Datos de prueba (ficticios, sólo para tests) ──────────────────────────────
+// Estos valores NO corresponden a credenciales reales.
+const _tUsername        = 'trainer_test';
+const _tUsernameAlt     = 'trainer_test_2';
+const _tUsernameMixed   = 'Trainer_Test';
+const _tUsernameMixedUp = 'TRAINER_TEST';
+const _tEmail           = 'trainer_test@example.test';
+const _tEmailAlt        = 'trainer_test_2@example.test';
+const _tEmailFemale     = 'trainerf_test@example.test';
+const _tValidPassword   = 'T3st_P@ssw0rd';       // cumple requisitos: ≥10, letras, números, especial
+const _tValidPassword2  = 'T3st_P@ssw0rd_2';     // contraseña válida alternativa (otro usuario)
+const _tWrongPassword   = 'Wr0ng_P@ssw0rd';      // contraseña incorrecta para login fallido
+const _tWeakPassword    = '123';                  // contraseña débil (para validación)
+const _tWeakShort       = 'Ab1!';                 // < 10 caracteres
+const _tWeakNoLetters   = '1234567890!';          // sin letras
+const _tWeakNoNumbers   = 'Abcdefghij!';          // sin números
+const _tWeakNoSpecial   = 'Abcdefg123';           // sin carácter especial
+const _tStrongMin10     = 'P@ssw0rd1x';           // exactamente 10 caracteres válidos
+const _tStrongLong      = 'C0mplex_P@ssw0rd_Lng'; // larga y compleja
+// ─────────────────────────────────────────────────────────────────────────────
+
 ProviderContainer _makeContainer() {
   final c = ProviderContainer();
   addTearDown(c.dispose);
@@ -30,32 +51,31 @@ void main() {
   // ── validatePassword ──────────────────────────────────────────────────────
   group('AuthNotifier.validatePassword()', () {
     test('rechaza contraseña menor de 10 caracteres', () {
-      expect(AuthNotifier.validatePassword('Ab1!'), isFalse);
+      expect(AuthNotifier.validatePassword(_tWeakShort), isFalse);
     });
 
     test('rechaza contraseña sin letras', () {
-      expect(AuthNotifier.validatePassword('1234567890!'), isFalse);
+      expect(AuthNotifier.validatePassword(_tWeakNoLetters), isFalse);
     });
 
     test('rechaza contraseña sin números', () {
-      expect(AuthNotifier.validatePassword('Abcdefghij!'), isFalse);
+      expect(AuthNotifier.validatePassword(_tWeakNoNumbers), isFalse);
     });
 
     test('rechaza contraseña sin carácter especial', () {
-      expect(AuthNotifier.validatePassword('Abcdefg123'), isFalse);
+      expect(AuthNotifier.validatePassword(_tWeakNoSpecial), isFalse);
     });
 
     test('acepta contraseña fuerte: letras+números+especial ≥10 chars', () {
-      expect(AuthNotifier.validatePassword('SecurePass1!'), isTrue);
+      expect(AuthNotifier.validatePassword(_tValidPassword), isTrue);
     });
 
     test('acepta contraseña exactamente de 10 caracteres válida', () {
-      expect(AuthNotifier.validatePassword('Password1!'), isTrue);
+      expect(AuthNotifier.validatePassword(_tStrongMin10), isTrue);
     });
 
     test('acepta contraseña larga y compleja', () {
-      expect(
-          AuthNotifier.validatePassword('MiContraseña_Segura123!'), isTrue);
+      expect(AuthNotifier.validatePassword(_tStrongLong), isTrue);
     });
   });
 
@@ -64,22 +84,22 @@ void main() {
     test('registra un usuario válido y loguea', () {
       final c = _makeContainer();
       final error = c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsername,
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       expect(error, isNull);
       expect(c.read(authNotifierProvider).isLoggedIn, isTrue);
-      expect(c.read(authNotifierProvider).user?.username, 'ash');
+      expect(c.read(authNotifierProvider).user?.username, _tUsername);
     });
 
     test('guarda el género correcto', () {
       final c = _makeContainer();
       c.read(authNotifierProvider.notifier).register(
-            username: 'misty',
-            email: 'misty@pokemon.com',
-            password: 'WaterGym123!',
+            username: _tUsernameAlt,
+            email: _tEmailFemale,
+            password: _tValidPassword2,
             gender: TrainerGender.trainerFemale,
           );
       expect(
@@ -92,8 +112,8 @@ void main() {
       final c = _makeContainer();
       final error = c.read(authNotifierProvider.notifier).register(
             username: '',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       expect(error, isNotNull);
@@ -103,9 +123,9 @@ void main() {
     test('rechaza email inválido', () {
       final c = _makeContainer();
       final error = c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
+            username: _tUsername,
             email: 'correo-invalido',
-            password: 'Pikachu123!',
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       expect(error, isNotNull);
@@ -114,9 +134,9 @@ void main() {
     test('rechaza contraseña débil', () {
       final c = _makeContainer();
       final error = c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
-            email: 'ash@pokemon.com',
-            password: '123',
+            username: _tUsername,
+            email: _tEmail,
+            password: _tWeakPassword,
             gender: TrainerGender.trainer,
           );
       expect(error, isNotNull);
@@ -125,15 +145,15 @@ void main() {
     test('rechaza username duplicado', () {
       final c = _makeContainer();
       c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsername,
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       final error = c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
-            email: 'ash2@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsername,
+            email: _tEmailAlt,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       expect(error, isNotNull);
@@ -143,15 +163,15 @@ void main() {
     test('rechaza email duplicado', () {
       final c = _makeContainer();
       c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsername,
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       final error = c.read(authNotifierProvider.notifier).register(
-            username: 'ash2',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsernameAlt,
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       expect(error, isNotNull);
@@ -161,15 +181,15 @@ void main() {
     test('username es case-insensitive para duplicados', () {
       final c = _makeContainer();
       c.read(authNotifierProvider.notifier).register(
-            username: 'Ash',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsernameMixed,
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       final error = c.read(authNotifierProvider.notifier).register(
-            username: 'ASH',
-            email: 'ash2@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsernameMixedUp,
+            email: _tEmailAlt,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       expect(error, isNotNull);
@@ -181,9 +201,9 @@ void main() {
     /// Helper: registra un usuario en el container
     void doRegister(ProviderContainer c) {
       c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsername,
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       // Hacer logout para simular que no está logueado
@@ -194,8 +214,8 @@ void main() {
       final c = _makeContainer();
       doRegister(c);
       final error = c.read(authNotifierProvider.notifier).login(
-            username: 'ash',
-            password: 'Pikachu123!',
+            username: _tUsername,
+            password: _tValidPassword,
           );
       expect(error, isNull);
       expect(c.read(authNotifierProvider).isLoggedIn, isTrue);
@@ -205,8 +225,8 @@ void main() {
       final c = _makeContainer();
       doRegister(c);
       final error = c.read(authNotifierProvider.notifier).login(
-            username: 'ASH',
-            password: 'Pikachu123!',
+            username: _tUsernameMixedUp,
+            password: _tValidPassword,
           );
       expect(error, isNull);
     });
@@ -215,8 +235,8 @@ void main() {
       final c = _makeContainer();
       doRegister(c);
       final error = c.read(authNotifierProvider.notifier).login(
-            username: 'ash',
-            password: 'WrongPass99!',
+            username: _tUsername,
+            password: _tWrongPassword,
           );
       expect(error, isNotNull);
       expect(c.read(authNotifierProvider).isLoggedIn, isFalse);
@@ -225,8 +245,8 @@ void main() {
     test('rechaza usuario inexistente', () {
       final c = _makeContainer();
       final error = c.read(authNotifierProvider.notifier).login(
-            username: 'noexiste',
-            password: 'Pikachu123!',
+            username: 'no_existe_test',
+            password: _tValidPassword,
           );
       expect(error, isNotNull);
     });
@@ -246,9 +266,9 @@ void main() {
     test('cierra la sesión correctamente', () {
       final c = _makeContainer();
       c.read(authNotifierProvider.notifier).register(
-            username: 'ash',
-            email: 'ash@pokemon.com',
-            password: 'Pikachu123!',
+            username: _tUsername,
+            email: _tEmail,
+            password: _tValidPassword,
             gender: TrainerGender.trainer,
           );
       expect(c.read(authNotifierProvider).isLoggedIn, isTrue);

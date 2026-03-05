@@ -8,6 +8,16 @@ import 'package:flutter_pokemon/features/presentation/pages/register_page.dart';
 import 'package:flutter_pokemon/features/presentation/providers/auth_provider.dart';
 import 'package:flutter_pokemon/features/presentation/widgets/auth_form_widgets.dart';
 
+// ── Datos de prueba (ficticios, sólo para tests) ──────────────────────────────
+// Estos valores NO corresponden a credenciales reales.
+const _tUsername      = 'trainer_test';
+const _tEmail         = 'trainer_test@example.test';
+const _tValidPassword = 'T3st_P@ssw0rd';  // cumple requisitos: ≥10, letras, números, especial
+const _tWrongPassword = 'Wr0ng_P@ssw0rd'; // contraseña incorrecta para login fallido
+const _tWeakPassword  = '123';            // contraseña débil para validaciones
+const _tFakeEmail     = 'fake_user@example.test'; // email interno del fake notifier
+// ─────────────────────────────────────────────────────────────────────────────
+
 // ── Fake AuthNotifier ─────────────────────────────────────────────────────────
 
 class _FakeAuthNotifier extends AuthNotifier {
@@ -24,7 +34,7 @@ class _FakeAuthNotifier extends AuthNotifier {
       isLoggedIn: true,
       user: AuthUser(
         username: username,
-        email: 'test@test.com',
+        email: _tFakeEmail,
         password: password,
         gender: TrainerGender.trainer,
       ),
@@ -64,30 +74,18 @@ class _FakeRegisterNotifier extends AuthNotifier {
 GoRouter _loginRouter() => GoRouter(
       initialLocation: '/login',
       routes: [
-        GoRoute(
-            path: '/login',
-            builder: (_, __) => const LoginPage()),
-        GoRoute(
-            path: '/register',
-            builder: (_, __) => const RegisterPage()),
-        GoRoute(
-            path: '/profile',
-            builder: (_, __) => const Scaffold(body: Text('Profile'))),
+        GoRoute(path: '/login',   builder: (_, __) => const LoginPage()),
+        GoRoute(path: '/register',builder: (_, __) => const RegisterPage()),
+        GoRoute(path: '/profile', builder: (_, __) => const Scaffold(body: Text('Profile'))),
       ],
     );
 
 GoRouter _registerRouter() => GoRouter(
       initialLocation: '/register',
       routes: [
-        GoRoute(
-            path: '/register',
-            builder: (_, __) => const RegisterPage()),
-        GoRoute(
-            path: '/login',
-            builder: (_, __) => const LoginPage()),
-        GoRoute(
-            path: '/profile',
-            builder: (_, __) => const Scaffold(body: Text('Profile'))),
+        GoRoute(path: '/register',builder: (_, __) => const RegisterPage()),
+        GoRoute(path: '/login',   builder: (_, __) => const LoginPage()),
+        GoRoute(path: '/profile', builder: (_, __) => const Scaffold(body: Text('Profile'))),
       ],
     );
 
@@ -153,8 +151,7 @@ void main() {
       await tester.pump();
       await tester.tap(find.byType(AuthSubmitButton));
       await tester.pump();
-      expect(find.text('Por favor completa todos los campos.'),
-          findsWidgets);
+      expect(find.text('Por favor completa todos los campos.'), findsWidgets);
     });
 
     testWidgets('muestra AuthErrorBanner con error de credenciales',
@@ -163,10 +160,8 @@ void main() {
           _buildLogin(loginError: 'Usuario o contraseña incorrectos.'));
       await tester.pump();
 
-      await tester.enterText(
-          find.byType(AuthTextField).first, 'ash');
-      await tester.enterText(
-          find.byType(AuthTextField).last, 'WrongPass1!');
+      await tester.enterText(find.byType(AuthTextField).first, _tUsername);
+      await tester.enterText(find.byType(AuthTextField).last, _tWrongPassword);
       await tester.tap(find.byType(AuthSubmitButton));
       await tester.pump();
 
@@ -179,10 +174,8 @@ void main() {
       await tester.pumpWidget(_buildLogin());
       await tester.pump();
 
-      await tester.enterText(
-          find.byType(AuthTextField).first, 'ash');
-      await tester.enterText(
-          find.byType(AuthTextField).last, 'Pikachu123!');
+      await tester.enterText(find.byType(AuthTextField).first, _tUsername);
+      await tester.enterText(find.byType(AuthTextField).last, _tValidPassword);
       await tester.tap(find.byType(AuthSubmitButton));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
@@ -197,7 +190,7 @@ void main() {
       await tester.pumpWidget(_buildLogin());
       await tester.pump();
 
-      // Al inicio la contraseña está oculta (EditableText del campo de contraseña)
+      // Al inicio la contraseña está oculta
       final editables =
           tester.widgetList<EditableText>(find.byType(EditableText)).toList();
       expect(editables.last.obscureText, isTrue);
@@ -244,7 +237,6 @@ void main() {
         (tester) async {
       await tester.pumpWidget(_buildRegister());
       await tester.pump();
-      // Con password vacío no muestra nada del indicador
       expect(find.byType(LinearProgressIndicator), findsNothing);
     });
   });
@@ -254,12 +246,9 @@ void main() {
       await tester.pumpWidget(_buildRegister());
       await tester.pump();
 
-      // El primer estado es Entrenador (masculino)
-      // Hacemos tap en "Entrenadora"
       await tester.tap(find.text('Entrenadora').first, warnIfMissed: false);
       await tester.pump();
 
-      // Verificamos que la card de entrenadora tenga el check
       expect(find.byIcon(Icons.check_rounded), findsOneWidget);
     });
   });
@@ -269,8 +258,7 @@ void main() {
         (tester) async {
       await tester.pumpWidget(_buildRegister());
       await tester.pump();
-      await tester.enterText(
-          find.byType(AuthTextField).at(2), 'abc');
+      await tester.enterText(find.byType(AuthTextField).at(2), 'abc');
       await tester.pump();
       expect(find.byType(LinearProgressIndicator), findsOneWidget);
     });
@@ -280,20 +268,17 @@ void main() {
       await tester.pumpWidget(_buildRegister());
       await tester.pump();
 
-      await tester.enterText(find.byType(AuthTextField).at(0), 'ash');
-      await tester.enterText(
-          find.byType(AuthTextField).at(1), 'ash@test.com');
-      await tester.enterText(find.byType(AuthTextField).at(2), '123');
-      await tester.enterText(find.byType(AuthTextField).at(3), '123');
+      await tester.enterText(find.byType(AuthTextField).at(0), _tUsername);
+      await tester.enterText(find.byType(AuthTextField).at(1), _tEmail);
+      await tester.enterText(find.byType(AuthTextField).at(2), _tWeakPassword);
+      await tester.enterText(find.byType(AuthTextField).at(3), _tWeakPassword);
 
-      // Hacer scroll hacia abajo para encontrar el botón
       await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -400));
       await tester.pump();
 
       await tester.tap(find.byType(AuthSubmitButton), warnIfMissed: false);
       await tester.pump();
 
-      // El form valida inline — el validator del campo de contraseña muestra error
       expect(find.byType(AuthTextField), findsWidgets);
     });
   });
@@ -304,24 +289,18 @@ void main() {
       await tester.pumpWidget(_buildRegister());
       await tester.pump();
 
-      await tester.enterText(find.byType(AuthTextField).at(0), 'ash');
-      await tester.enterText(
-          find.byType(AuthTextField).at(1), 'ash@test.com');
-      await tester.enterText(
-          find.byType(AuthTextField).at(2), 'Pikachu123!');
-      await tester.enterText(
-          find.byType(AuthTextField).at(3), 'Pikachu123!');
+      await tester.enterText(find.byType(AuthTextField).at(0), _tUsername);
+      await tester.enterText(find.byType(AuthTextField).at(1), _tEmail);
+      await tester.enterText(find.byType(AuthTextField).at(2), _tValidPassword);
+      await tester.enterText(find.byType(AuthTextField).at(3), _tValidPassword);
 
-      // Scroll para llegar al botón
-      await tester.drag(
-          find.byType(SingleChildScrollView), const Offset(0, -400));
+      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -400));
       await tester.pump();
 
       await tester.tap(find.byType(AuthSubmitButton), warnIfMissed: false);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
 
-      // Después del registro va a /login
       expect(find.text('Iniciar Sesión'), findsWidgets);
     });
 
@@ -331,25 +310,18 @@ void main() {
           _buildRegister(registerError: 'El usuario ya existe.'));
       await tester.pump();
 
-      await tester.enterText(find.byType(AuthTextField).at(0), 'ash');
-      await tester.enterText(
-          find.byType(AuthTextField).at(1), 'ash@test.com');
-      await tester.enterText(
-          find.byType(AuthTextField).at(2), 'Pikachu123!');
-      await tester.enterText(
-          find.byType(AuthTextField).at(3), 'Pikachu123!');
+      await tester.enterText(find.byType(AuthTextField).at(0), _tUsername);
+      await tester.enterText(find.byType(AuthTextField).at(1), _tEmail);
+      await tester.enterText(find.byType(AuthTextField).at(2), _tValidPassword);
+      await tester.enterText(find.byType(AuthTextField).at(3), _tValidPassword);
 
-      // Scroll para llegar al botón
-      await tester.drag(
-          find.byType(SingleChildScrollView), const Offset(0, -400));
+      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -400));
       await tester.pump();
 
       await tester.tap(find.byType(AuthSubmitButton), warnIfMissed: false);
       await tester.pump();
 
-      // Scroll de vuelta al inicio para ver el banner
-      await tester.drag(
-          find.byType(SingleChildScrollView), const Offset(0, 400));
+      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, 400));
       await tester.pump();
 
       expect(find.byType(AuthErrorBanner), findsOneWidget);

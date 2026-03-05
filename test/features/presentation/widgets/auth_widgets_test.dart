@@ -3,6 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_pokemon/features/presentation/widgets/auth_form_widgets.dart';
 import 'package:flutter_pokemon/features/presentation/widgets/password_strength_indicator_widget.dart';
 
+// ── Datos de prueba (ficticios, sólo para tests) ──────────────────────────────
+// Estos valores NO corresponden a credenciales reales.
+const _tValidPassword = 'T3st_P@ssw0rd'; // cumple requisitos: ≥10, letras, números, especial
+// ─────────────────────────────────────────────────────────────────────────────
+
 Widget _wrap(Widget child) => MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(child: Padding(
@@ -192,7 +197,7 @@ void main() {
     testWidgets('muestra icono de contraseña segura cuando es válida',
         (tester) async {
       await tester.pumpWidget(_wrap(
-        const PasswordStrengthIndicatorWidget(password: 'SecurePass1!'),
+        const PasswordStrengthIndicatorWidget(password: _tValidPassword),
       ));
       expect(find.byIcon(Icons.check_circle_rounded), findsOneWidget);
       expect(find.text('Contraseña segura'), findsOneWidget);
