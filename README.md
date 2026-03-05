@@ -32,6 +32,8 @@ git clone https://github.com/<tu-usuario>/flutter_pokedex.git
 cd flutter_pokedex
 ```
 
+### Nota: estar en la rama develop o feature/pokedex
+
 ### 2. Instalar dependencias
 
 ```bash
