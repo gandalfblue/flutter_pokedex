@@ -54,7 +54,7 @@ class OnboardingOneWidget extends StatelessWidget {
             l10n.onboardingOneTitleText,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontSize: 24,
               fontWeight: FontWeight.bold,
               height: 1.3,
@@ -64,7 +64,7 @@ class OnboardingOneWidget extends StatelessWidget {
           Text(
             l10n.onboardingOneBodyText,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white60, fontSize: 14, height: 1.6),
+            style: const TextStyle(color: Colors.black54, fontSize: 14, height: 1.6),
           ),
         ],
       ),

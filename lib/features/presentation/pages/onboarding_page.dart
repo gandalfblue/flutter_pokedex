@@ -33,7 +33,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF212121),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
