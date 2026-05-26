@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../providers/pokemon_favorites_provider.dart';
 import '../widgets/bottom_nav_pokemon_widget.dart';

@@ -7,7 +7,7 @@ part of 'pokemon_search_provider.dart';
 // **************************************************************************
 
 String _$pokemonSearchNotifierHash() =>
-    r'324230532164956e64e87c2e0601f9315b08e87a';
+    r'f4c452c36d6e3e55e03cf0df413c9599d15de4e5';
 
 /// Estado de la búsqueda: lista de pokémon que coinciden con el query.
 ///

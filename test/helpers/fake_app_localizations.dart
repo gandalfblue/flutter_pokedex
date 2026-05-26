@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_pokemon/l10n/app_localizations.dart';
 import 'package:mocktail/mocktail.dart';
 
 /// Stub de [AppLocalizations] para usar en tests unitarios sin BuildContext.

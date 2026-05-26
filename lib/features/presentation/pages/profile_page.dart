@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
-import '../providers/auth_provider.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../data/models/trainer_model.dart';
+import '../providers/auth/auth_notifier.dart';
+import '../providers/auth/auth_provider.dart';
 import '../providers/pokemon_favorites_provider.dart';
 import '../providers/pokemon_list_provider.dart';
 import '../providers/trainer_profile_provider.dart';
@@ -213,7 +215,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final profile = ref.watch(trainerProfileNotifierProvider);
     final favorites = ref.watch(pokemonFavoritesNotifierProvider);
     final listState = ref.watch(pokemonListNotifierProvider);
-    final authUser = ref.watch(authNotifierProvider).user;
+    final authUser = ref.watch(authNotifierProvider).trainer;
 
     final trainerLevel =
         ref.read(trainerProfileNotifierProvider.notifier).computedLevel;

@@ -20,6 +20,7 @@ Future<PokemonEntity> pokemonDetail(
       network: (msg) => msg,
       cache: (msg) => msg,
       unknown: (msg) => msg,
+      firebase: (msg) => msg,
     ),
     (pokemon) => pokemon,
   );

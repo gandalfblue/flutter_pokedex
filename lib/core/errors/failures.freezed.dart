@@ -23,6 +23,7 @@ mixin _$Failure {
     required TResult Function(String message) network,
     required TResult Function(String message) cache,
     required TResult Function(String message) unknown,
+    required TResult Function(String message) firebase,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -31,6 +32,7 @@ mixin _$Failure {
     TResult? Function(String message)? network,
     TResult? Function(String message)? cache,
     TResult? Function(String message)? unknown,
+    TResult? Function(String message)? firebase,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,6 +41,7 @@ mixin _$Failure {
     TResult Function(String message)? network,
     TResult Function(String message)? cache,
     TResult Function(String message)? unknown,
+    TResult Function(String message)? firebase,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +51,7 @@ mixin _$Failure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(CacheFailure value) cache,
     required TResult Function(UnknownFailure value) unknown,
+    required TResult Function(FirebaseFailure value) firebase,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,6 +60,7 @@ mixin _$Failure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(CacheFailure value)? cache,
     TResult? Function(UnknownFailure value)? unknown,
+    TResult? Function(FirebaseFailure value)? firebase,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,6 +69,7 @@ mixin _$Failure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(CacheFailure value)? cache,
     TResult Function(UnknownFailure value)? unknown,
+    TResult Function(FirebaseFailure value)? firebase,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -191,6 +197,7 @@ class _$ServerFailureImpl implements ServerFailure {
     required TResult Function(String message) network,
     required TResult Function(String message) cache,
     required TResult Function(String message) unknown,
+    required TResult Function(String message) firebase,
   }) {
     return server(message, statusCode);
   }
@@ -202,6 +209,7 @@ class _$ServerFailureImpl implements ServerFailure {
     TResult? Function(String message)? network,
     TResult? Function(String message)? cache,
     TResult? Function(String message)? unknown,
+    TResult? Function(String message)? firebase,
   }) {
     return server?.call(message, statusCode);
   }
@@ -213,6 +221,7 @@ class _$ServerFailureImpl implements ServerFailure {
     TResult Function(String message)? network,
     TResult Function(String message)? cache,
     TResult Function(String message)? unknown,
+    TResult Function(String message)? firebase,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -228,6 +237,7 @@ class _$ServerFailureImpl implements ServerFailure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(CacheFailure value) cache,
     required TResult Function(UnknownFailure value) unknown,
+    required TResult Function(FirebaseFailure value) firebase,
   }) {
     return server(this);
   }
@@ -239,6 +249,7 @@ class _$ServerFailureImpl implements ServerFailure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(CacheFailure value)? cache,
     TResult? Function(UnknownFailure value)? unknown,
+    TResult? Function(FirebaseFailure value)? firebase,
   }) {
     return server?.call(this);
   }
@@ -250,6 +261,7 @@ class _$ServerFailureImpl implements ServerFailure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(CacheFailure value)? cache,
     TResult Function(UnknownFailure value)? unknown,
+    TResult Function(FirebaseFailure value)? firebase,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -351,6 +363,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     required TResult Function(String message) network,
     required TResult Function(String message) cache,
     required TResult Function(String message) unknown,
+    required TResult Function(String message) firebase,
   }) {
     return network(message);
   }
@@ -362,6 +375,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult? Function(String message)? network,
     TResult? Function(String message)? cache,
     TResult? Function(String message)? unknown,
+    TResult? Function(String message)? firebase,
   }) {
     return network?.call(message);
   }
@@ -373,6 +387,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult Function(String message)? network,
     TResult Function(String message)? cache,
     TResult Function(String message)? unknown,
+    TResult Function(String message)? firebase,
     required TResult orElse(),
   }) {
     if (network != null) {
@@ -388,6 +403,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(CacheFailure value) cache,
     required TResult Function(UnknownFailure value) unknown,
+    required TResult Function(FirebaseFailure value) firebase,
   }) {
     return network(this);
   }
@@ -399,6 +415,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(CacheFailure value)? cache,
     TResult? Function(UnknownFailure value)? unknown,
+    TResult? Function(FirebaseFailure value)? firebase,
   }) {
     return network?.call(this);
   }
@@ -410,6 +427,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(CacheFailure value)? cache,
     TResult Function(UnknownFailure value)? unknown,
+    TResult Function(FirebaseFailure value)? firebase,
     required TResult orElse(),
   }) {
     if (network != null) {
@@ -508,6 +526,7 @@ class _$CacheFailureImpl implements CacheFailure {
     required TResult Function(String message) network,
     required TResult Function(String message) cache,
     required TResult Function(String message) unknown,
+    required TResult Function(String message) firebase,
   }) {
     return cache(message);
   }
@@ -519,6 +538,7 @@ class _$CacheFailureImpl implements CacheFailure {
     TResult? Function(String message)? network,
     TResult? Function(String message)? cache,
     TResult? Function(String message)? unknown,
+    TResult? Function(String message)? firebase,
   }) {
     return cache?.call(message);
   }
@@ -530,6 +550,7 @@ class _$CacheFailureImpl implements CacheFailure {
     TResult Function(String message)? network,
     TResult Function(String message)? cache,
     TResult Function(String message)? unknown,
+    TResult Function(String message)? firebase,
     required TResult orElse(),
   }) {
     if (cache != null) {
@@ -545,6 +566,7 @@ class _$CacheFailureImpl implements CacheFailure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(CacheFailure value) cache,
     required TResult Function(UnknownFailure value) unknown,
+    required TResult Function(FirebaseFailure value) firebase,
   }) {
     return cache(this);
   }
@@ -556,6 +578,7 @@ class _$CacheFailureImpl implements CacheFailure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(CacheFailure value)? cache,
     TResult? Function(UnknownFailure value)? unknown,
+    TResult? Function(FirebaseFailure value)? firebase,
   }) {
     return cache?.call(this);
   }
@@ -567,6 +590,7 @@ class _$CacheFailureImpl implements CacheFailure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(CacheFailure value)? cache,
     TResult Function(UnknownFailure value)? unknown,
+    TResult Function(FirebaseFailure value)? firebase,
     required TResult orElse(),
   }) {
     if (cache != null) {
@@ -666,6 +690,7 @@ class _$UnknownFailureImpl implements UnknownFailure {
     required TResult Function(String message) network,
     required TResult Function(String message) cache,
     required TResult Function(String message) unknown,
+    required TResult Function(String message) firebase,
   }) {
     return unknown(message);
   }
@@ -677,6 +702,7 @@ class _$UnknownFailureImpl implements UnknownFailure {
     TResult? Function(String message)? network,
     TResult? Function(String message)? cache,
     TResult? Function(String message)? unknown,
+    TResult? Function(String message)? firebase,
   }) {
     return unknown?.call(message);
   }
@@ -688,6 +714,7 @@ class _$UnknownFailureImpl implements UnknownFailure {
     TResult Function(String message)? network,
     TResult Function(String message)? cache,
     TResult Function(String message)? unknown,
+    TResult Function(String message)? firebase,
     required TResult orElse(),
   }) {
     if (unknown != null) {
@@ -703,6 +730,7 @@ class _$UnknownFailureImpl implements UnknownFailure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(CacheFailure value) cache,
     required TResult Function(UnknownFailure value) unknown,
+    required TResult Function(FirebaseFailure value) firebase,
   }) {
     return unknown(this);
   }
@@ -714,6 +742,7 @@ class _$UnknownFailureImpl implements UnknownFailure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(CacheFailure value)? cache,
     TResult? Function(UnknownFailure value)? unknown,
+    TResult? Function(FirebaseFailure value)? firebase,
   }) {
     return unknown?.call(this);
   }
@@ -725,6 +754,7 @@ class _$UnknownFailureImpl implements UnknownFailure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(CacheFailure value)? cache,
     TResult Function(UnknownFailure value)? unknown,
+    TResult Function(FirebaseFailure value)? firebase,
     required TResult orElse(),
   }) {
     if (unknown != null) {
@@ -746,5 +776,169 @@ abstract class UnknownFailure implements Failure {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UnknownFailureImplCopyWith<_$UnknownFailureImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FirebaseFailureImplCopyWith<$Res>
+    implements $FailureCopyWith<$Res> {
+  factory _$$FirebaseFailureImplCopyWith(_$FirebaseFailureImpl value,
+          $Res Function(_$FirebaseFailureImpl) then) =
+      __$$FirebaseFailureImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$FirebaseFailureImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$FirebaseFailureImpl>
+    implements _$$FirebaseFailureImplCopyWith<$Res> {
+  __$$FirebaseFailureImplCopyWithImpl(
+      _$FirebaseFailureImpl _value, $Res Function(_$FirebaseFailureImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$FirebaseFailureImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FirebaseFailureImpl implements FirebaseFailure {
+  const _$FirebaseFailureImpl({required this.message});
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'Failure.firebase(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FirebaseFailureImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FirebaseFailureImplCopyWith<_$FirebaseFailureImpl> get copyWith =>
+      __$$FirebaseFailureImplCopyWithImpl<_$FirebaseFailureImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message, int? statusCode) server,
+    required TResult Function(String message) network,
+    required TResult Function(String message) cache,
+    required TResult Function(String message) unknown,
+    required TResult Function(String message) firebase,
+  }) {
+    return firebase(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message, int? statusCode)? server,
+    TResult? Function(String message)? network,
+    TResult? Function(String message)? cache,
+    TResult? Function(String message)? unknown,
+    TResult? Function(String message)? firebase,
+  }) {
+    return firebase?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message, int? statusCode)? server,
+    TResult Function(String message)? network,
+    TResult Function(String message)? cache,
+    TResult Function(String message)? unknown,
+    TResult Function(String message)? firebase,
+    required TResult orElse(),
+  }) {
+    if (firebase != null) {
+      return firebase(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(CacheFailure value) cache,
+    required TResult Function(UnknownFailure value) unknown,
+    required TResult Function(FirebaseFailure value) firebase,
+  }) {
+    return firebase(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(CacheFailure value)? cache,
+    TResult? Function(UnknownFailure value)? unknown,
+    TResult? Function(FirebaseFailure value)? firebase,
+  }) {
+    return firebase?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ServerFailure value)? server,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(CacheFailure value)? cache,
+    TResult Function(UnknownFailure value)? unknown,
+    TResult Function(FirebaseFailure value)? firebase,
+    required TResult orElse(),
+  }) {
+    if (firebase != null) {
+      return firebase(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FirebaseFailure implements Failure {
+  const factory FirebaseFailure({required final String message}) =
+      _$FirebaseFailureImpl;
+
+  @override
+  String get message;
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FirebaseFailureImplCopyWith<_$FirebaseFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

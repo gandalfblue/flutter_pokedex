@@ -7,7 +7,7 @@ part of 'pokemon_list_provider.dart';
 // **************************************************************************
 
 String _$pokemonListNotifierHash() =>
-    r'fafe8853769d8c3125efb02789b4a545b50a20c9';
+    r'5cf64161948836858bcd8ddbd576b290d75ff29f';
 
 /// Provider de estado para la lista paginada de Pokémon.
 /// keepAlive: true → el estado persiste al navegar, evitando recargas innecesarias.

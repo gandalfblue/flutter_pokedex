@@ -16,5 +16,7 @@ class Failure with _$Failure {
   const factory Failure.cache({required String message}) = CacheFailure;
 
   const factory Failure.unknown({required String message}) = UnknownFailure;
+
+  const factory Failure.firebase({required String message}) = FirebaseFailure;
 }
 

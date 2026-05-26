@@ -41,6 +41,7 @@ class PokemonSearchNotifier extends _$PokemonSearchNotifier {
           network: (msg) => msg,
           cache: (msg) => msg,
           unknown: (msg) => msg,
+          firebase: (msg) => msg,
         ),
         StackTrace.current,
       ),

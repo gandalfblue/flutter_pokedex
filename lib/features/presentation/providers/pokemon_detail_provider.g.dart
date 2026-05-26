@@ -6,7 +6,7 @@ part of 'pokemon_detail_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pokemonDetailHash() => r'dc7aeaed0353aafe6746ac2bd19388117083b8cf';
+String _$pokemonDetailHash() => r'332ed0ae1daa0f830669606b239bfb6a7d010581';
 
 /// Copied from Dart SDK
 class _SystemHash {

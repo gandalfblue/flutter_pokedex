@@ -178,6 +178,8 @@
   "@loginSubtitle": { "description": "Login page subtitle" },
   "loginUsernameHint": "Username",
   "@loginUsernameHint": { "description": "Username field hint" },
+  "loginEmailHint": "Email",
+  "@loginEmailHint": { "description": "Email field hint" },
   "loginPasswordHint": "Password",
   "@loginPasswordHint": { "description": "Password field hint" },
   "loginButton": "Sign In",
