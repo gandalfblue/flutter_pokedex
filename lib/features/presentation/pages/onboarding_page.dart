@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
+import '../../../l10n/app_localizations.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/onboarding_one_widget.dart';
 import '../widgets/onborading_two_widget.dart';

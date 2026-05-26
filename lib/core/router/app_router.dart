@@ -10,7 +10,8 @@ import '../../features/presentation/pages/pokemon_list_page.dart';
 import '../../features/presentation/pages/profile_page.dart';
 import '../../features/presentation/pages/register_page.dart';
 import '../../features/presentation/pages/splash_page.dart';
-import '../../features/presentation/providers/auth_provider.dart';
+import '../../features/presentation/providers/auth/auth_notifier.dart';
+import '../../features/presentation/providers/auth/auth_provider.dart';
 
 /// Rutas de la aplicación centralizadas con go_router.
 abstract class AppRoutes {
@@ -26,12 +27,27 @@ abstract class AppRoutes {
 
 /// Listenable que notifica al router cuando cambia el estado de auth.
 /// Así el router NO se recrea — solo re-evalúa el redirect.
-class _AuthNotifierListenable extends ChangeNotifier {
-  _AuthNotifierListenable(ProviderContainer container) {
-    container.listen<AuthState>(
-      authNotifierProvider,
-      (_, __) => notifyListeners(),
-    );
+class _AuthNotifierListenable
+    extends ChangeNotifier {
+
+  late final ProviderSubscription
+  _subscription;
+
+  _AuthNotifierListenable(
+      ProviderContainer container,
+      ) {
+
+    _subscription =
+        container.listen(
+          authNotifierProvider,
+              (_, __) => notifyListeners(),
+        );
+  }
+
+  @override
+  void dispose() {
+    _subscription.close();
+    super.dispose();
   }
 }
 
@@ -44,20 +60,34 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: AppRoutes.splash,
     refreshListenable: listenable,
     redirect: (context, state) {
-      final authState = container.read(authNotifierProvider);
-      final isLoggedIn = authState.isLoggedIn;
-      final loc = state.matchedLocation;
+      try {
+        final authState = container.read(authNotifierProvider);
+        final isLoggedIn = authState.isLoggedIn;
+        final location = state.matchedLocation;
+        final isAuthRoute = location == AppRoutes.login ||
+            location == AppRoutes.register;
 
-      // Sin login, /profile → /login
-      if (loc == AppRoutes.profile && !isLoggedIn) {
-        return AppRoutes.login;
+        // Usuario NO logueado
+        if (!isLoggedIn) {
+          // Puede entrar a login/register
+          if (isAuthRoute) {
+            return null;
+          }
+          // Todo lo demás → login
+          return AppRoutes.login;
+        }
+
+        // Usuario logueado
+        if (isAuthRoute || location == AppRoutes.splash) {
+          return AppRoutes.profile;
+        }
+
+        return null;
+      } catch (e) {
+        // Si hay error al leer auth, permitir continuar
+        debugPrint('Error en AppRouter redirect: $e');
+        return null;
       }
-      // Logueado, intenta ir a /login o /register → /profile
-      if (isLoggedIn &&
-          (loc == AppRoutes.login || loc == AppRoutes.register)) {
-        return AppRoutes.profile;
-      }
-      return null;
     },
     routes: [
       GoRoute(

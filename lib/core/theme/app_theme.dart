@@ -28,13 +28,13 @@ class AppTheme {
           statusBarBrightness: Brightness.dark,
         ),
       ),
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: _seedColor,
         unselectedLabelColor: const Color(0xFF999999),
         indicatorColor: _seedColor,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         margin: EdgeInsets.zero,

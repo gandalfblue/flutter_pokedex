@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../providers/auth_provider.dart';
+import 'package:flutter_pokemon/features/presentation/validators/auth_validator.dart';
+import '../providers/auth/auth_notifier.dart';
+import '../providers/auth/auth_provider.dart';
 
 /// Indicador visual de fortaleza de contraseña.
 class PasswordStrengthIndicatorWidget extends StatelessWidget {
@@ -11,7 +13,7 @@ class PasswordStrengthIndicatorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (password.isEmpty) return const SizedBox.shrink();
 
-    final isStrong = AuthNotifier.validatePassword(password);
+    final isStrong = AuthValidators.validatePassword(password);
     final hasLength = password.length >= 10;
     final hasLetter = password.contains(RegExp(r'[a-zA-Z]'));
     final hasNumber = password.contains(RegExp(r'[0-9]'));

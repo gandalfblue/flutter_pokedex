@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_pokemon/features/presentation/validators/auth_validator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
-import '../providers/auth_provider.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../data/models/trainer_model.dart';
+import '../providers/auth/auth_notifier.dart';
+import '../providers/auth/auth_provider.dart';
 import '../widgets/auth_form_widgets.dart';
 import '../widgets/bottom_nav_pokemon_widget.dart';
 import '../widgets/password_strength_indicator_widget.dart';
@@ -63,7 +66,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         );
 
     if (error != null) {
-      setState(() => _errorMessage = error);
+      setState(() async => _errorMessage = await error);
     } else {
       // Registro exitoso → logout automático y llevar al login
       ref.read(authNotifierProvider.notifier).logout();
@@ -147,7 +150,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           if (v == null || v.isEmpty) {
                             return 'La contraseña es requerida.';
                           }
-                          if (!AuthNotifier.validatePassword(v)) {
+                          if (!AuthValidators.validatePassword(v)) {
                             return l10n.registerPasswordHint2;
                           }
                           return null;

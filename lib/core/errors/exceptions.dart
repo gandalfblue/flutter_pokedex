@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 /// Excepciones de la capa de datos.
 /// Cada excepción representa un tipo de fallo específico (Single Responsibility).
 class ServerException implements Exception {
@@ -26,5 +28,14 @@ class CacheException implements Exception {
 
   @override
   String toString() => 'CacheException(message: $message)';
+}
+
+class FirebaseException implements Exception {
+  const FirebaseException({required this.message});
+
+  final String message;
+
+  @override
+  String toString() => 'FirebaseException(message: $message)';
 }
 

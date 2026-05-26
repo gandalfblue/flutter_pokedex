@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "454541959049",
+    "firebase_url": "https://marvel-env-default-rtdb.firebaseio.com",
+    "project_id": "marvel-env",
+    "storage_bucket": "marvel-env.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454541959049:android:3620d633e81532851e4b58",
+        "android_client_info": {
+          "package_name": "com.example.flutter_pokedex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvi4hJXlY0hUAY2xmnV2JW5ngDY2wED5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454541959049:android:f72ad03d1e203e491e4b58",
+        "android_client_info": {
+          "package_name": "com.example.formulario_prueba_tecnica"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvi4hJXlY0hUAY2xmnV2JW5ngDY2wED5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454541959049:android:d04df0f7ee56f0bb1e4b58",
+        "android_client_info": {
+          "package_name": "com.example.marketplace_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvi4hJXlY0hUAY2xmnV2JW5ngDY2wED5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

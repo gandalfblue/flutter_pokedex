@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_pokemon/features/presentation/widgets/pokeball_progress_indicator_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../core/utils/pokemon_type_utils.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/entities/pokemon_type_entity.dart';
 import '../providers/pokemon_detail_provider.dart';

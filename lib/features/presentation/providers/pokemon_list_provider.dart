@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../core/errors/failures.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import 'providers.dart';
 
@@ -46,6 +47,7 @@ class PokemonListNotifier extends _$PokemonListNotifier {
           network: (msg) => msg,
           cache: (msg) => msg,
           unknown: (msg) => msg,
+          firebase: (msg) => msg,
         ),
       ),
       (listEntity) => state = state.copyWith(
@@ -77,6 +79,7 @@ class PokemonListNotifier extends _$PokemonListNotifier {
           network: (msg) => msg,
           cache: (msg) => msg,
           unknown: (msg) => msg,
+          firebase: (msg) => msg,
         ),
       ),
       (listEntity) => state = state.copyWith(

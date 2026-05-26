@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
-import '../providers/auth_provider.dart';
+import '../../../l10n/app_localizations.dart';
+import '../providers/auth/auth_notifier.dart';
 import '../widgets/auth_form_widgets.dart';
 import '../widgets/bottom_nav_pokemon_widget.dart';
 
@@ -17,14 +17,14 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   bool _obscurePassword = true;
   String? _errorMessage;
 
   @override
   void dispose() {
-    _usernameCtrl.dispose();
+    _emailCtrl.dispose();
     _passwordCtrl.dispose();
     super.dispose();
   }
@@ -35,14 +35,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     final l10n = AppLocalizations.of(context)!;
     final error = ref.read(authNotifierProvider.notifier).login(
-          username: _usernameCtrl.text,
+          email: _emailCtrl.text,
           password: _passwordCtrl.text,
           l10n: l10n,
         );
 
-    if (error != null) {
-      setState(() => _errorMessage = error);
-    } else {
+    if (error == null && context.mounted) {
       // Login exitoso → ir al perfil
       context.go(AppRoutes.profile);
     }
@@ -76,14 +74,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             if (_errorMessage != null)
                               AuthErrorBanner(message: _errorMessage!),
 
+                            // Correo
                             AuthTextField(
-                              controller: _usernameCtrl,
-                              hint: l10n.loginUsernameHint,
-                              icon: Icons.person_outline_rounded,
-                              validator: (v) =>
-                                  (v == null || v.trim().isEmpty)
-                                      ? l10n.loginErrorEmpty
-                                      : null,
+                              controller: _emailCtrl,
+                              hint: l10n.registerEmailHint,
+                              icon: Icons.email_outlined,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (v) {
+                                if (v == null || v.trim().isEmpty) {
+                                  return 'El correo es requerido.';
+                                }
+                                if (!RegExp(r'^[\w.\-]+@[\w\-]+\.[a-zA-Z]{2,}$')
+                                    .hasMatch(v.trim())) {
+                                  return 'Ingresa un correo válido.';
+                                }
+                                return null;
+                              },
                             ),
                             const SizedBox(height: 16),
 

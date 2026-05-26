@@ -178,6 +178,8 @@
   "@loginSubtitle": { "description": "Subtítulo de la página de login" },
   "loginUsernameHint": "Nombre de usuario",
   "@loginUsernameHint": { "description": "Hint del campo usuario" },
+  "loginEmailHint": "Correo electrónico",
+  "@loginEmailHint": { "description": "Hint del campo correo electrónico" },
   "loginPasswordHint": "Contraseña",
   "@loginPasswordHint": { "description": "Hint del campo contraseña" },
   "loginButton": "Iniciar Sesión",
