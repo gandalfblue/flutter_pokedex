@@ -29,22 +29,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _errorMessage = null);
 
     final l10n = AppLocalizations.of(context)!;
-    final error = ref.read(authNotifierProvider.notifier).login(
-          email: _emailCtrl.text,
-          password: _passwordCtrl.text,
-          l10n: l10n,
-        );
+    final error = await ref.read(authNotifierProvider.notifier).login(
+      email: _emailCtrl.text,
+      password: _passwordCtrl.text,
+      l10n: l10n,
+    );
 
-    if (error == null && context.mounted) {
-      // Login exitoso → ir al perfil
+    if (!context.mounted) return;
+
+    if (error != null) {
+      print('Login error: $error');
+      setState(() {
+        _errorMessage = error;
+        _emailCtrl.clear();
+        _passwordCtrl.clear();
+      });
+    } else {
+      _emailCtrl.clear();
+      _passwordCtrl.clear();
       context.go(AppRoutes.profile);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

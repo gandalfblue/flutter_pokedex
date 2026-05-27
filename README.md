@@ -1,6 +1,6 @@
 # 📱 Flutter Pokédex
 
-> Aplicación móvil desarrollada en **Flutter** que consume la [PokéAPI](https://pokeapi.co/) para mostrar información detallada de Pokémon. 
+> Aplicación móvil desarrollada en **Flutter** que consume la [PokéAPI](https://pokeapi.co/) para mostrar información detallada de Pokémon.
 > Implementa **Clean Architecture**, gestión de estado con **Riverpod**, internacionalización en español e inglés, autenticación con Firebase y múltiples capas de seguridad.
 
 ---
@@ -58,6 +58,8 @@ flutter gen-l10n
 
 ### 5. Ejecutar la aplicación
 
+> Asegúrate de haber completado la **configuración de Firebase** antes de este paso (ver sección de Variables de entorno más abajo).
+
 ```bash
 # Modo debug (dispositivo o emulador conectado)
 flutter run
@@ -85,12 +87,63 @@ flutter test --coverage
 flutter test test/features/domain/usecases/get_pokemon_list_usecase_test.dart
 ```
 
+### ⚠️ Configuración de Firebase (Obligatorio)
+
+La app usa **Firebase Authentication** para el login y registro. Los archivos de configuración **no están incluidos en el repositorio** por razones de seguridad. Debes configurar tu propio proyecto de Firebase antes de poder ejecutar la app.
+
+#### Pasos
+
+**1. Crea un proyecto en Firebase Console**
+
+Ingresa a [https://console.firebase.google.com/](https://console.firebase.google.com/) y crea un nuevo proyecto (o usa uno existente).
+
+**2. Habilita Authentication**
+
+Dentro del proyecto, ve a **Authentication → Sign-in method** y habilita el proveedor **Correo electrónico/Contraseña**.
+
+**3. Registra tu app Android**
+
+En la consola de Firebase, añade una app Android con el package name:
+```
+com.example.flutter_pokedex
+```
+Descarga el archivo `google-services.json` generado y colócalo en:
+```
+android/app/google-services.json
+```
+
+**4. Genera el archivo `firebase_options.dart`**
+
+Instala la CLI de Firebase y FlutterFire si no los tienes:
+```bash
+npm install -g firebase-tools
+dart pub global activate flutterfire_cli
+```
+Luego, en la raíz del proyecto:
+```bash
+firebase login
+flutterfire configure
+```
+Esto generará automáticamente el archivo:
+```
+lib/firebase_options.dart
+```
+
+**5. Verifica que los archivos existen**
+
+Antes de correr la app, confirma que tienes ambos archivos:
+```
+android/app/google-services.json   ✅
+lib/firebase_options.dart          ✅
+```
+
+> **Nota:** Estos archivos están en `.gitignore` intencionalmente. Nunca los subas al repositorio.
+
+---
+
 ### Variables de entorno
 
-La aplicación **no requiere** variables de entorno ni API keys. Consume la PokéAPI de forma pública y gratuita. Sin embargo, para la autenticación con Firebase:
-
-- Se incluye automáticamente `google-services.json` (Android) y configuración en `FirebaseOptions`
-- Configura Firebase en tu console: https://firebase.google.com/
+La aplicación **no requiere** variables de entorno ni API keys adicionales. Consume la PokéAPI de forma pública y gratuita. La única configuración externa requerida es Firebase (ver sección anterior).
 
 ---
 
@@ -625,4 +678,3 @@ Las contribuciones son bienvenidas. Por favor:
 - ✅ Actualiza documentación
 - ✅ Sin secrets o API keys
 - ✅ Código en inglés (comentarios permitidos en español)
-
